@@ -2,7 +2,7 @@
 
 ## 🧠 Idea Overview
 
-- DoctorHub is a web application that simplifies the process of scheduling doctor appointments. Patients can explore a list of verified doctors, filter them by specialization, check availability, and book appointments directly from the platform.
+- Doc-connect is a web application that simplifies the process of scheduling doctor appointments. Patients can explore a list of verified doctors, filter them by specialization, check availability, and book appointments directly from the platform.
 
 - Doctors, on the other hand, get access to a secure admin dashboard where they can manage their available slots, upcoming appointments, and patient interactions.
 
@@ -23,10 +23,10 @@
 
 ### 🔐 Auth APIs
 
-- **POST** /api/user/register
-- **POST** /api/user/login
-- **POST** /api/doctor/register
-- **POST** /api/doctor/login
+- **POST** /api/auth/user/register
+- **POST** /api/auth/user/login
+- **POST** /api/auth/doctor/register
+- **POST** /api/auth/doctor/login
 
 ### 🧑‍⚕️ Doctor APIs
 
@@ -36,6 +36,6 @@
 ### 📅 Appointment APIs
 
 - **POST** /api/appointments → create booking
-- **GET** /api/appointments → user bookings -
+- **GET** /api/appointments → user bookings
 - **PATCH** /api/appointments/:id/accept → doctor accepts
 - **PATCH** /api/appointments/:id/reject → doctor rejects

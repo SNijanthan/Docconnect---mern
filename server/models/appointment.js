@@ -42,7 +42,7 @@ const appointmentSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// 🔥 Prevent double booking (same doctor + same time)
+// Prevent double booking (same doctor + same time)
 appointmentSchema.index(
   { doctor: 1, appointmentDateTime: 1 },
   { unique: true },

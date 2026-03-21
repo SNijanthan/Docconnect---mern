@@ -43,6 +43,12 @@ const doctorSchema = new mongoose.Schema(
       trim: true,
     },
 
+    imageUrl: {
+      type: String,
+      default:
+        "https://static.vecteezy.com/system/resources/thumbnails/015/412/022/small/doctor-round-avatar-medicine-flat-avatar-with-male-doctor-medical-clinic-team-round-icon-medical-collection-illustration-vector.jpg",
+    },
+
     address: {
       type: addressSchema,
       required: true,
