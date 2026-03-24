@@ -39,3 +39,6 @@
 - **GET** /api/appointments → user bookings
 - **PATCH** /api/appointments/:id/accept → doctor accepts
 - **PATCH** /api/appointments/:id/reject → doctor rejects
+
+<!-- Niju@123 Password for user   -->
+<!-- Hello@123 Password for doctor -->

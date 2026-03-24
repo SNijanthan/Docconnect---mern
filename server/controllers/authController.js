@@ -5,6 +5,9 @@ const {
   validateDoctorSignupData,
 } = require("../utils/inputValidation.js");
 const hashPassword = require("../utils/passwordHashing.js");
+const loginService = require("../services/authService.js");
+
+// ! Common function for login user and doctor
 
 // ! For user
 
@@ -43,7 +46,23 @@ const userRegister = async (req, res) => {
 };
 
 // ! User login
-const userLogin = (req, res) => {};
+const userLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    await loginService(User, email, password);
+
+    return res.status(200).json({
+      status: true,
+      message: "User logged in successfully",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
 
 // ! For doctors
 
@@ -98,6 +117,22 @@ const doctorRegister = async (req, res) => {
 };
 
 // ! doctor login
-const doctorLogin = (req, res) => {};
+const doctorLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    await loginService(Doctor, email, password);
+
+    return res.status(200).json({
+      status: true,
+      message: "Doctor logged in successfully",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
 
 module.exports = { userRegister, userLogin, doctorRegister, doctorLogin };
