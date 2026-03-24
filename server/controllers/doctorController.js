@@ -1,4 +1,3 @@
-const tokenAuth = require("../middleware/auth.js");
 const Doctor = require("../models/doctor.js");
 
 const getDoctors = async (req, res) => {

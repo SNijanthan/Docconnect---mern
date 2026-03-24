@@ -5,8 +5,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const connectToDB = require("./config/database.js");
-const authRouter = require("./routers/authRouter.js");
-const doctorRouter = require("./routers/doctorRouter.js");
+const authRoutes = require("./routers/authRoutes.js");
+const doctorRoutes = require("./routers/doctorRoutes.js");
 
 const app = express();
 
@@ -17,8 +17,8 @@ app.use(cors({ origin: "http://localhost:5000", credentials: true }));
 
 const port = process.env.PORT || 5000;
 
-app.use("/api/auth", authRouter);
-app.use("/api", doctorRouter);
+app.use("/api/auth", authRoutes);
+app.use("/api", doctorRoutes);
 
 connectToDB()
   .then(() => {
