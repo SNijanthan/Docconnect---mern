@@ -140,4 +140,32 @@ const doctorLogin = async (req, res) => {
   }
 };
 
-module.exports = { userRegister, userLogin, doctorRegister, doctorLogin };
+// ! User && Doctor logout
+
+const logout = async (req, res) => {
+  try {
+    res
+      .cookie("token", "", {
+        httpOnly: true,
+        expires: new Date(0),
+      })
+      .status(200)
+      .json({
+        status: true,
+        message: "Logged out successfully",
+      });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+
+module.exports = {
+  userRegister,
+  userLogin,
+  doctorRegister,
+  doctorLogin,
+  logout,
+};
