@@ -7,11 +7,10 @@ const {
 const hashPassword = require("../utils/passwordHashing.js");
 const loginService = require("../services/authService.js");
 
-// ! Common function for login user and doctor
-
 // ! For user
 
 // ! New user register
+
 const userRegister = async (req, res) => {
   try {
     const { name, email, password, gender } = req.body;
@@ -46,11 +45,14 @@ const userRegister = async (req, res) => {
 };
 
 // ! User login
+
 const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    await loginService(User, email, password);
+    const { token } = await loginService(User, email, password);
+
+    res.cookie("token", token, { httpOnly: true });
 
     return res.status(200).json({
       status: true,
@@ -67,6 +69,7 @@ const userLogin = async (req, res) => {
 // ! For doctors
 
 // ! New doctor register
+
 const doctorRegister = async (req, res) => {
   try {
     validateBasicData(req);
@@ -75,7 +78,6 @@ const doctorRegister = async (req, res) => {
     const {
       name,
       email,
-      password,
       gender,
       imageUrl,
       phone,
@@ -117,11 +119,14 @@ const doctorRegister = async (req, res) => {
 };
 
 // ! doctor login
+
 const doctorLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    await loginService(Doctor, email, password);
+    const { token, user } = await loginService(Doctor, email, password);
+
+    res.cookie("token", token, { httpOnly: true });
 
     return res.status(200).json({
       status: true,

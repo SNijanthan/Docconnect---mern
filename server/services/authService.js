@@ -1,4 +1,7 @@
+require("dotenv").config();
 const comparePassword = require("../utils/passwordValidation.js");
+
+const jwt = require("jsonwebtoken");
 
 const loginService = async (Model, email, password) => {
   const user = await Model.findOne({ email });
@@ -13,7 +16,15 @@ const loginService = async (Model, email, password) => {
     throw new Error("Invalid password");
   }
 
-  return user;
+  const token = jwt.sign(
+    { _id: user._id, role: user.role },
+    process.env.JWT_SECRET_KEY,
+    {
+      expiresIn: "2d",
+    },
+  );
+
+  return { user, token };
 };
 
 module.exports = loginService;
