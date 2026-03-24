@@ -4,6 +4,7 @@ const {
   validateBasicData,
   validateDoctorSignupData,
 } = require("../utils/inputValidation.js");
+const hashPassword = require("../utils/passwordHashing.js");
 
 // ! For user
 
@@ -22,10 +23,12 @@ const userRegister = async (req, res) => {
         .json({ status: false, message: "Email already exists..." });
     }
 
+    const hashedPassword = await hashPassword(req);
+
     const newUser = new User({
       name: name.trim(),
       email: email.trim().toLowerCase(),
-      password,
+      password: hashedPassword,
       gender,
     });
 
@@ -70,10 +73,12 @@ const doctorRegister = async (req, res) => {
         .json({ status: false, message: "Email already exists..." });
     }
 
+    const hashedPassword = await hashPassword(req);
+
     const newDoctor = new Doctor({
       name: name.trim(),
       email: email.trim().toLowerCase(),
-      password,
+      password: hashedPassword,
       imageUrl: imageUrl && imageUrl.trim() !== "" ? imageUrl : undefined,
       gender,
       phone,
