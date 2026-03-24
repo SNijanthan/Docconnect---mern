@@ -7,7 +7,7 @@ const {
 const hashPassword = require("../utils/passwordHashing.js");
 const loginService = require("../services/authService.js");
 
-// ! For user
+// * For user
 
 // ! New user register
 
@@ -66,7 +66,7 @@ const userLogin = async (req, res) => {
   }
 };
 
-// ! For doctors
+// * For doctors
 
 // ! New doctor register
 

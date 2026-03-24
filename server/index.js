@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const connectToDB = require("./config/database.js");
 const authRouter = require("./routers/authRouter.js");
 const doctorRouter = require("./routers/doctorRouter.js");
@@ -8,6 +9,7 @@ const doctorRouter = require("./routers/doctorRouter.js");
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 const port = process.env.PORT || 5000;
 

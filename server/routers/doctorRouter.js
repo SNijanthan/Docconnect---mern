@@ -7,7 +7,9 @@ const {
   getDoctorById,
 } = require("../controllers/doctorController.js");
 
-doctorRouter.get("/doctors", getDoctors);
-doctorRouter.get("/doctor/:id", getDoctorById);
+const tokenAuth = require("../middleware/auth.js");
+
+doctorRouter.get("/doctors", tokenAuth, getDoctors);
+doctorRouter.get("/doctor/:id", tokenAuth, getDoctorById);
 
 module.exports = doctorRouter;
