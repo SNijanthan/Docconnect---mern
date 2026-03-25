@@ -24,7 +24,9 @@ const loginService = async (Model, email, password) => {
     },
   );
 
-  return { user, token };
+  console.log(token, user);
+
+  return token;
 };
 
 module.exports = loginService;

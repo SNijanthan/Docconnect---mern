@@ -11,8 +11,8 @@
 ### 🌐 Frontend
 
 - **Frontend**: React.js
-- **Styling**: Tailwind CSS / ShadCN UI
-- **State Management**: Context API or Redux (optional)
+- **Styling**: Tailwind CSS && ShadCN UI
+- **State Management**: Redux
 
 ### 🗄️ Backend
 
@@ -31,12 +31,12 @@
 - **POST** /api/auth/doctor/register → Create doctor account - DONE
 - **POST** /api/auth/doctor/login → Doctor login (returns JWT) - DONE
 
-- **POST** /api/auth/logout → Logout (clear token/cookie)
+- **POST** /api/auth/logout → Logout (clear token/cookie) - DONE
 
 ### 🧑‍⚕️ Doctor APIs
 
 - **GET** /api/doctors → Get all doctors (for user browsing) - DONE
-- **GET** /api/doctors/:id → Get single doctor details
+- **GET** /api/doctors/:id → Get single doctor details - DONE
 
 ### 📅 Appointment APIs
 

@@ -50,7 +50,7 @@ const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const { token } = await loginService(User, email, password);
+    const token = await loginService(User, email, password);
 
     res.cookie("token", token, { httpOnly: true });
 
@@ -124,7 +124,7 @@ const doctorLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const { token, user } = await loginService(Doctor, email, password);
+    const token = await loginService(Doctor, email, password);
 
     res.cookie("token", token, { httpOnly: true });
 
