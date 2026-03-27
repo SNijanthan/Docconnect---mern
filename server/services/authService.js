@@ -24,8 +24,6 @@ const loginService = async (Model, email, password) => {
     },
   );
 
-  console.log(token, user);
-
   return token;
 };
 
