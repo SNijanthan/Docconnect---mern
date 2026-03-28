@@ -1,5 +1,4 @@
 const Appointment = require("../models/appointment.js");
-const User = require("../models/user.js");
 const Doctor = require("../models/doctor.js");
 
 // ! For creating appointments
@@ -80,7 +79,64 @@ const getAppointmentDetails = async (req, res) => {
 
 const cancelAppointment = async (req, res) => {
   try {
-  } catch (error) {}
+    const { id } = req?.params;
+    const { _id } = req.user;
+
+    const findAppointment = await Appointment.findById(id);
+
+    // ! If the appointment is existing or not
+
+    if (!findAppointment) {
+      return res
+        .status(404)
+        .json({ status: false, message: "No records found" });
+    }
+
+    // ! Only the user who created an appointment can delete the appointment
+
+    if (!findAppointment.user.equals(_id)) {
+      return res.status(403).json({
+        status: false,
+        message: "Unauthorized",
+      });
+    }
+
+    // ! Checking if the appointment is already cancelled or not
+
+    if (findAppointment.bookingStatus === "cancelled") {
+      return res.status(400).json({
+        status: false,
+        message: "Appointment already cancelled",
+      });
+    }
+
+    // ! Preventing cancelling previous/completed appointments
+
+    if (findAppointment.appointmentDateTime < new Date()) {
+      return res.status(400).json({
+        status: false,
+        message: "Cannot cancel past appointment",
+      });
+    }
+
+    // ! Updating the booking status as cancelled
+
+    const updateAppointment = await Appointment.findByIdAndUpdate(
+      id,
+      {
+        bookingStatus: "cancelled",
+      },
+      { runValidators: true, returnDocument: "after" },
+    );
+
+    return res.status(200).json({
+      status: true,
+      message: "Appointment deleted successfully",
+      updateAppointment,
+    });
+  } catch (error) {
+    return res.status(400).json({ status: false, error: error.message });
+  }
 };
 
 module.exports = {

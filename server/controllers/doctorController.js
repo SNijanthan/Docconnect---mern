@@ -2,7 +2,7 @@ const Doctor = require("../models/doctor.js");
 
 const getDoctors = async (req, res) => {
   try {
-    const getAllDoctors = await Doctor.find();
+    const getAllDoctors = await Doctor.find().select("-password");
 
     res.status(200).json({
       status: true,
@@ -18,7 +18,7 @@ const getDoctorById = async (req, res) => {
   try {
     const { id } = req?.params;
 
-    const doctor = await Doctor.findById(id);
+    const doctor = await Doctor.findById(id).select("-password");
 
     if (!doctor) {
       return res

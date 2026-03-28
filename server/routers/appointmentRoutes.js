@@ -19,12 +19,14 @@ appointmentRoutes.post(
   authorizeUserMiddleware,
   createAppointment,
 );
+
 appointmentRoutes.get(
   "/appointments/user",
   tokenAuth,
   authorizeUserMiddleware,
   getAppointmentDetails,
 );
+
 appointmentRoutes.patch(
   "/appointment/:id/cancel",
   tokenAuth,

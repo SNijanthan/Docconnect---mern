@@ -14,8 +14,7 @@
 ### 🌐 Frontend
 
 - React.js (Vite)
-- Tailwind CSS
-- shadcn/ui
+- Tailwind CSS / Chakra UI
 - React Router
 - Axios
 
