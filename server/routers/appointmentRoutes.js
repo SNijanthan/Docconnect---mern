@@ -6,6 +6,10 @@ const {
   createAppointment,
   getAppointmentDetails,
   cancelAppointment,
+  getBookingsDetails,
+  acceptAppointment,
+  rejectAppointment,
+  completeAppointment,
 } = require("../controllers/appointmentController.js");
 
 const tokenAuth = require("../middleware/authMiddleware.js");
@@ -26,12 +30,35 @@ appointmentRoutes.get(
   authorizeUserMiddleware,
   getAppointmentDetails,
 );
-
 appointmentRoutes.patch(
   "/appointment/:id/cancel",
   tokenAuth,
   authorizeUserMiddleware,
   cancelAppointment,
+);
+appointmentRoutes.get(
+  "/appointments/doctor",
+  tokenAuth,
+  authorizeUserMiddleware,
+  getBookingsDetails,
+);
+appointmentRoutes.patch(
+  "/appointments/:id/accept",
+  tokenAuth,
+  authorizeUserMiddleware,
+  acceptAppointment,
+);
+appointmentRoutes.patch(
+  "/appointments/:id/reject",
+  tokenAuth,
+  authorizeUserMiddleware,
+  rejectAppointment,
+);
+appointmentRoutes.patch(
+  "/appointments/:id/complete",
+  tokenAuth,
+  authorizeUserMiddleware,
+  completeAppointment,
 );
 
 module.exports = appointmentRoutes;

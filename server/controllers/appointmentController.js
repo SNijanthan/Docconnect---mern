@@ -1,6 +1,8 @@
 const Appointment = require("../models/appointment.js");
 const Doctor = require("../models/doctor.js");
 
+// ! For Users
+
 // ! For creating appointments
 
 const createAppointment = async (req, res) => {
@@ -139,8 +141,30 @@ const cancelAppointment = async (req, res) => {
   }
 };
 
+// ! For Doctors
+
+// ! Get appointment booking details
+
+const getBookingsDetails = async (req, res) => {};
+
+// ! Accept received appointments
+
+const acceptAppointment = async (req, res) => {};
+
+// ! Reject received appointments
+
+const rejectAppointment = async (req, res) => {};
+
+// ! Update completed appointment detail ["pending", "accepted", "rejected", "completed", "cancelled"]
+
+const completeAppointment = async (req, res) => {};
+
 module.exports = {
   createAppointment,
   getAppointmentDetails,
   cancelAppointment,
+  getBookingsDetails,
+  acceptAppointment,
+  rejectAppointment,
+  completeAppointment,
 };
