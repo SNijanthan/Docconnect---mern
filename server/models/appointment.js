@@ -6,12 +6,14 @@ const appointmentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
     },
 
     doctor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Doctor",
       required: true,
+      index: true,
     },
 
     bookingType: {
@@ -24,6 +26,7 @@ const appointmentSchema = new mongoose.Schema(
       type: String,
       enum: ["pending", "accepted", "rejected", "completed", "cancelled"],
       default: "pending",
+      index: true,
     },
 
     appointmentDateTime: {
@@ -41,6 +44,11 @@ const appointmentSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+appointmentSchema.index({ doctor: 1, bookingStatus: 1 });
+appointmentSchema.index({ user: 1, bookingStatus: 1 });
+
+appointmentSchema.index({ createdAt: -1 });
 
 // Prevent double booking (same doctor + same time)
 appointmentSchema.index(
