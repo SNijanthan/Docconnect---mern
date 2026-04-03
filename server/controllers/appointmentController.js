@@ -170,15 +170,140 @@ const getBookingsDetails = async (req, res) => {
 
 // ! Accept received appointments
 
-const acceptAppointment = async (req, res) => {};
+const acceptAppointment = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { id } = req.params;
+
+    const updatedAppointment = await Appointment.findOneAndUpdate(
+      {
+        _id: id,
+        doctor: _id,
+        bookingStatus: "pending",
+      },
+      {
+        $set: { bookingStatus: "accepted" },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    ).populate({
+      path: "user",
+      select: "name email gender",
+    });
+
+    if (!updatedAppointment) {
+      return res.status(404).json({
+        status: false,
+        message: "Appointment not found or already processed",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      message: "Appointment accepted",
+      updatedAppointment,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
 
 // ! Reject received appointments
 
-const rejectAppointment = async (req, res) => {};
+const rejectAppointment = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { id } = req.params;
+
+    const updateAppointment = await Appointment.findOneAndUpdate(
+      {
+        _id: id,
+        doctor: _id,
+        bookingStatus: "pending",
+      },
+      {
+        $set: { bookingStatus: "rejected" },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    ).populate({
+      path: "user",
+      select: "name email gender",
+    });
+
+    if (!updateAppointment) {
+      return res.status(404).json({
+        status: false,
+        message: "Appointment not found or already processed",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      message: "Appointment rejected",
+      updateAppointment,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
 
 // ! Update completed appointment detail ["pending", "accepted", "rejected", "completed", "cancelled"]
 
-const completeAppointment = async (req, res) => {};
+const completeAppointment = async (req, res) => {
+  try {
+    const { _id } = req.user; // doctor
+    const { id } = req.params;
+
+    const updatedAppointment = await Appointment.findOneAndUpdate(
+      {
+        _id: id,
+        doctor: _id,
+        bookingStatus: "accepted",
+      },
+      {
+        $set: {
+          bookingStatus: "completed",
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    ).populate({
+      path: "user",
+      select: "name email gender",
+    });
+
+    if (!updatedAppointment) {
+      return res.status(404).json({
+        status: false,
+        message: "Appointment not found or not eligible for completion",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      message: "Appointment completed successfully",
+      updatedAppointment,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
 
 module.exports = {
   createAppointment,
