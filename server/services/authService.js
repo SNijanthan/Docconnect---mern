@@ -1,4 +1,3 @@
-require("dotenv").config();
 const comparePassword = require("../utils/passwordValidation.js");
 
 const jwt = require("jsonwebtoken");

@@ -1,7 +1,7 @@
 const Appointment = require("../models/appointment.js");
 const Doctor = require("../models/doctor.js");
 
-// ! For Users
+// * For Users
 
 // ! For creating appointments
 
@@ -57,7 +57,6 @@ const getAppointmentDetails = async (req, res) => {
     const { _id } = req.user;
 
     const appointments = await Appointment.find({ user: _id }).populate([
-      { path: "user", select: "name email" },
       { path: "doctor", select: "name email gender phone specialties" },
     ]);
 
@@ -141,11 +140,33 @@ const cancelAppointment = async (req, res) => {
   }
 };
 
-// ! For Doctors
+// * For Doctors
 
 // ! Get appointment booking details
 
-const getBookingsDetails = async (req, res) => {};
+const getBookingsDetails = async (req, res) => {
+  try {
+    const { _id } = req.user;
+
+    const appointments = await Appointment.find({ doctor: _id })
+      .populate([{ path: "user", select: "name email gender" }])
+      .select("-doctor");
+
+    if (appointments.length === 0) {
+      return res
+        .status(200)
+        .json({ status: true, message: "No records found" });
+    }
+
+    return res.status(200).json({
+      status: true,
+      message: "Data retrieved successfully",
+      appointments,
+    });
+  } catch (error) {
+    return res.status(400).json({ status: false, error: error.message });
+  }
+};
 
 // ! Accept received appointments
 

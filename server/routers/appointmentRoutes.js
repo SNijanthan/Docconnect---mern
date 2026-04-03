@@ -14,6 +14,7 @@ const {
 
 const tokenAuth = require("../middleware/authMiddleware.js");
 const authorizeUserMiddleware = require("../middleware/authorizeUserMiddleware.js");
+const authorizeDoctorMiddleware = require("../middleware/authorizeDoctorMiddleware.js");
 
 // ! Its a protected route, middleware should be include
 
@@ -39,25 +40,25 @@ appointmentRoutes.patch(
 appointmentRoutes.get(
   "/appointments/doctor",
   tokenAuth,
-  authorizeUserMiddleware,
+  authorizeDoctorMiddleware,
   getBookingsDetails,
 );
 appointmentRoutes.patch(
   "/appointments/:id/accept",
   tokenAuth,
-  authorizeUserMiddleware,
+  authorizeDoctorMiddleware,
   acceptAppointment,
 );
 appointmentRoutes.patch(
   "/appointments/:id/reject",
   tokenAuth,
-  authorizeUserMiddleware,
+  authorizeDoctorMiddleware,
   rejectAppointment,
 );
 appointmentRoutes.patch(
   "/appointments/:id/complete",
   tokenAuth,
-  authorizeUserMiddleware,
+  authorizeDoctorMiddleware,
   completeAppointment,
 );
 
