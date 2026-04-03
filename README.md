@@ -60,13 +60,13 @@ doc-connect/
 
 #### 👤 User
 
-- POST `/api/appointments` → Create appointment
-- GET `/api/appointments/user` → Get user bookings
-- PATCH `/api/appointments/:id/cancel` → Cancel appointment
+- POST `/api/appointments` → Create appointment ✅
+- GET `/api/appointments/user` → Get user bookings ✅
+- PATCH `/api/appointments/:id/cancel` → Cancel appointment ✅
 
 #### 👨‍⚕️ Doctor
 
-- GET `/api/appointments/doctor` → Get doctor bookings
+- GET `/api/appointments/doctor` → Get doctor bookings ✅
 - PATCH `/api/appointments/:id/accept` → Accept appointment
 - PATCH `/api/appointments/:id/reject` → Reject appointment
 - PATCH `/api/appointments/:id/complete` → Complete appointment
