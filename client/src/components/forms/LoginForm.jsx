@@ -17,16 +17,13 @@ const LoginForm = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* HEADER (LOGO) */}
       <div className="flex items-center gap-2 px-4 sm:px-6 py-4">
         <img src="/logo.png" alt="doc-connect" className="w-8 h-8" />
         <h1 className="text-lg sm:text-xl font-semibold">DocConnect</h1>
       </div>
 
-      {/* CENTER CONTENT */}
       <div className="flex flex-1 items-center justify-center px-4 py-6">
         <Card className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl p-5 sm:p-6 lg:p-10 shadow-xl">
-          {/* HEADER */}
           <CardHeader>
             <CardTitle className="text-2xl sm:text-3xl lg:text-4xl text-center">
               Login to your account
@@ -36,11 +33,9 @@ const LoginForm = () => {
             </CardDescription>
           </CardHeader>
 
-          {/* CONTENT */}
           <CardContent>
             <form>
               <div className="flex flex-col gap-5 sm:gap-6 lg:gap-7">
-                {/* EMAIL */}
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -52,7 +47,6 @@ const LoginForm = () => {
                   />
                 </div>
 
-                {/* PASSWORD */}
                 <div className="grid gap-2">
                   <div className="flex items-center text-sm">
                     <Label htmlFor="password">Password</Label>
@@ -84,7 +78,6 @@ const LoginForm = () => {
             </form>
           </CardContent>
 
-          {/* FOOTER */}
           <CardFooter className="flex-col gap-3 pt-4">
             <Button className="w-full bg-green-600 hover:bg-green-700 py-5">
               Login
