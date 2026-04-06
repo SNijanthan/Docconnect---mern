@@ -12,22 +12,26 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      <Link to="/">
-        <div className="flex items-center gap-2 px-4 sm:px-6 py-4">
+    <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors">
+      {/* HEADER */}
+      <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-border">
+        <Link to="/" className="flex items-center gap-2">
           <img src="/logo.png" alt="doc-connect" className="w-8 h-8" />
-
           <h1 className="text-lg sm:text-xl font-semibold">DocConnect</h1>
-        </div>
-      </Link>
+        </Link>
 
+        <ModeToggle />
+      </div>
+
+      {/* SIGNUP CARD */}
       <div className="flex flex-1 items-center justify-center px-4 py-6">
-        <Card className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl p-5 sm:p-6 lg:p-10 shadow-xl">
+        <Card className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl p-5 sm:p-6 lg:p-10 shadow-xl bg-card text-card-foreground">
           <CardHeader>
             <CardTitle className="text-2xl sm:text-3xl lg:text-4xl text-center">
               Welcome
@@ -40,16 +44,19 @@ const SignupForm = () => {
           <CardContent>
             <form>
               <div className="flex flex-col gap-5 sm:gap-6 lg:gap-7">
+                {/* NAME */}
                 <div className="grid gap-2">
-                  <Label htmlFor="email">Name</Label>
+                  <Label htmlFor="name">Name</Label>
                   <Input
-                    id="email"
-                    type="email"
+                    id="name"
+                    type="text"
                     placeholder="Enter name here"
                     required
                     className="py-5"
                   />
                 </div>
+
+                {/* EMAIL */}
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -60,10 +67,10 @@ const SignupForm = () => {
                     className="py-5"
                   />
                 </div>
+
+                {/* PASSWORD */}
                 <div className="grid gap-2">
-                  <div className="flex items-center text-sm">
-                    <Label htmlFor="password">Password</Label>
-                  </div>
+                  <Label htmlFor="password">Password</Label>
 
                   <div className="relative">
                     <Input
@@ -84,13 +91,15 @@ const SignupForm = () => {
                     </Button>
                   </div>
                 </div>
+
+                {/* GENDER */}
                 <div className="grid gap-2">
                   <Label htmlFor="gender">Select gender</Label>
                   <select
                     name="gender"
                     id="gender"
-                    className="pr-10 py-5"
                     defaultValue=""
+                    className="py-5 px-3 rounded-md border border-border bg-background text-foreground"
                   >
                     <option value="" disabled>
                       Choose here
@@ -103,10 +112,16 @@ const SignupForm = () => {
               </div>
             </form>
           </CardContent>
+
           <CardFooter className="flex-col gap-3 pt-4">
-            <Button className="w-full bg-green-600 hover:bg-green-700 py-5">
-              Signup
-            </Button>
+            <Button className="w-full py-5">Signup</Button>
+
+            <p className="text-sm text-center">
+              Already have an account?{" "}
+              <Link to="/" className="underline">
+                Login
+              </Link>
+            </p>
           </CardFooter>
         </Card>
       </div>

@@ -12,22 +12,26 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      <Link to="/">
-        <div className="flex items-center gap-2 px-4 sm:px-6 py-4">
+    <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors">
+      {/* HEADER */}
+      <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-border">
+        <Link to="/" className="flex items-center gap-2">
           <img src="/logo.png" alt="doc-connect" className="w-8 h-8" />
-
           <h1 className="text-lg sm:text-xl font-semibold">DocConnect</h1>
-        </div>
-      </Link>
+        </Link>
 
+        <ModeToggle />
+      </div>
+
+      {/* LOGIN CARD */}
       <div className="flex flex-1 items-center justify-center px-4 py-6">
-        <Card className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl p-5 sm:p-6 lg:p-10 shadow-xl">
+        <Card className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl p-5 sm:p-6 lg:p-10 shadow-xl bg-card text-card-foreground">
           <CardHeader>
             <CardTitle className="text-2xl sm:text-3xl lg:text-4xl text-center">
               Login to your account
@@ -40,6 +44,7 @@ const LoginForm = () => {
           <CardContent>
             <form>
               <div className="flex flex-col gap-5 sm:gap-6 lg:gap-7">
+                {/* EMAIL */}
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -51,6 +56,7 @@ const LoginForm = () => {
                   />
                 </div>
 
+                {/* PASSWORD */}
                 <div className="grid gap-2">
                   <div className="flex items-center text-sm">
                     <Label htmlFor="password">Password</Label>
@@ -83,15 +89,13 @@ const LoginForm = () => {
           </CardContent>
 
           <CardFooter className="flex-col gap-3 pt-4">
-            <Button className="w-full bg-green-600 hover:bg-green-700 py-5">
-              Login
-            </Button>
+            <Button className="w-full py-5">Login</Button>
 
-            <p className="text-sm text-center ">
+            <p className="text-sm text-center">
               New here?{" "}
-              <span className="hover:underline hover:cursor-pointer">
-                <Link to="/signup">Sign Up</Link>
-              </span>
+              <Link to="/signup" className="underline">
+                Sign Up
+              </Link>
             </p>
           </CardFooter>
         </Card>
