@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 
-const LoginForm = () => {
+const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -30,16 +30,26 @@ const LoginForm = () => {
         <Card className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl p-5 sm:p-6 lg:p-10 shadow-xl">
           <CardHeader>
             <CardTitle className="text-2xl sm:text-3xl lg:text-4xl text-center">
-              Login to your account
+              Welcome
             </CardTitle>
             <CardDescription className="text-center text-sm sm:text-base lg:text-lg mt-1">
-              Enter your email below to login to your account
+              Please fill your details below
             </CardDescription>
           </CardHeader>
 
           <CardContent>
             <form>
               <div className="flex flex-col gap-5 sm:gap-6 lg:gap-7">
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Name</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Enter name here"
+                    required
+                    className="py-5"
+                  />
+                </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -50,13 +60,9 @@ const LoginForm = () => {
                     className="py-5"
                   />
                 </div>
-
                 <div className="grid gap-2">
                   <div className="flex items-center text-sm">
                     <Label htmlFor="password">Password</Label>
-                    <a href="#" className="ml-auto hover:underline">
-                      Forgot?
-                    </a>
                   </div>
 
                   <div className="relative">
@@ -78,21 +84,29 @@ const LoginForm = () => {
                     </Button>
                   </div>
                 </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="gender">Select gender</Label>
+                  <select
+                    name="gender"
+                    id="gender"
+                    className="pr-10 py-5"
+                    defaultValue=""
+                  >
+                    <option value="" disabled>
+                      Choose here
+                    </option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Others</option>
+                  </select>
+                </div>
               </div>
             </form>
           </CardContent>
-
           <CardFooter className="flex-col gap-3 pt-4">
             <Button className="w-full bg-green-600 hover:bg-green-700 py-5">
-              Login
+              Signup
             </Button>
-
-            <p className="text-sm text-center ">
-              New here?{" "}
-              <span className="hover:underline hover:cursor-pointer">
-                <Link to="/signup">Sign Up</Link>
-              </span>
-            </p>
           </CardFooter>
         </Card>
       </div>
@@ -100,4 +114,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;
