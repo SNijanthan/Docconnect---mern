@@ -16,6 +16,20 @@ import { ModeToggle } from "@/components/mode-toggle";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(true);
+
+  const [formData, useFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleFormInputData = (e) => {
+    const { id, value } = e.target;
+    useFormData((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors">
@@ -85,19 +99,37 @@ const LoginForm = () => {
                   </div>
                 </div>
               </div>
+              <div className="grid gap-2 mt-5">
+                <Label htmlFor="role">Select User Type:</Label>
+                <select
+                  name="role"
+                  id="role"
+                  defaultValue=""
+                  className="p-3 rounded-md border border-border bg-background text-foreground"
+                >
+                  <option value="" disabled>
+                    Please select here
+                  </option>
+                  <option value="user">User</option>
+                  <option value="admin">Doctor</option>
+                </select>
+              </div>
+              {error && (
+                <p className="text-red-600 text-center mt-2">
+                  Error message goes here
+                </p>
+              )}
+              <div className="flex-col gap-3 pt-4">
+                <Button className="w-full py-5">Login</Button>
+                <p className="text-sm text-center mt-3">
+                  New here?{" "}
+                  <Link to="/signup" className="underline">
+                    Sign Up
+                  </Link>
+                </p>
+              </div>
             </form>
           </CardContent>
-
-          <CardFooter className="flex-col gap-3 pt-4">
-            <Button className="w-full py-5">Login</Button>
-
-            <p className="text-sm text-center">
-              New here?{" "}
-              <Link to="/signup" className="underline">
-                Sign Up
-              </Link>
-            </p>
-          </CardFooter>
         </Card>
       </div>
     </div>
