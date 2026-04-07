@@ -10,12 +10,16 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
+import { loginAuth } from "../../services/authService";
+import { showError, showSuccess } from "../../utils/toast";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(true);
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -30,9 +34,19 @@ const LoginForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      const data = await loginAuth(formData);
+      console.log(data);
+      setError("");
+      showSuccess("Login successful 🎉 Redirecting...");
+      setFormData({});
+      setTimeout(() => navigate("/main"), 1500);
+    } catch (error) {
+      setError(error.message);
+      showError(error.message);
+    }
   };
 
   return (
@@ -105,31 +119,13 @@ const LoginForm = () => {
                   </div>
                 </div>
               </div>
-              <div className="grid gap-2 mt-5">
-                <Label htmlFor="role">Select User Type:</Label>
-                <select
-                  required
-                  onChange={handleFormInputData}
-                  name="role"
-                  id="role"
-                  defaultValue=""
-                  className="p-3 rounded-md border border-border bg-background text-foreground hover:cursor-pointer"
-                >
-                  <option value="" disabled>
-                    Please select here
-                  </option>
-                  <option value="user">User</option>
-                  <option value="doctor">Doctor</option>
-                </select>
-              </div>
+
               {error && (
-                <p className="text-red-600 text-center mt-2">
-                  Error message goes here
-                </p>
+                <p className="text-red-600 text-center mt-2">{error}</p>
               )}
               <div className="flex-col gap-3 pt-4">
                 <Button
-                  className="w-full py-5 hover:cursor-pointer "
+                  className="w-full py-5 hover:cursor-pointer font-semibold"
                   type="submit"
                 >
                   Login

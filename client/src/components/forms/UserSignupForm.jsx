@@ -43,9 +43,7 @@ const UserSignupForm = () => {
       const data = await userRegister(formData);
       console.log(data);
       setError("");
-      showSuccess(
-        "Your account has been created successfully 🎉 Redirecting...",
-      );
+      showSuccess("Welcome 👋");
       setFormData({});
       setTimeout(() => navigate("/"), 1500);
     } catch (error) {
@@ -147,23 +145,6 @@ const UserSignupForm = () => {
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Others</option>
-                  </select>
-                </div>
-                {/* User role */}
-                <div className="grid gap-2">
-                  <Label htmlFor="role">Select User Type:</Label>
-                  <select
-                    name="role"
-                    id="role"
-                    defaultValue=""
-                    className="p-3 rounded-md border border-border bg-background text-foreground hover:cursor-pointer"
-                    onChange={handleFormInputs}
-                  >
-                    <option value="" disabled>
-                      Please select here
-                    </option>
-                    <option value="user">User</option>
-                    <option value="admin">Doctor</option>
                   </select>
                 </div>
               </div>
