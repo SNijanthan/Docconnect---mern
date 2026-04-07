@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -18,17 +17,22 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(true);
 
-  const [formData, useFormData] = useState({
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const handleFormInputData = (e) => {
     const { id, value } = e.target;
-    useFormData((prevState) => ({
+    setFormData((prevState) => ({
       ...prevState,
       [id]: value,
     }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
   };
 
   return (
@@ -56,12 +60,13 @@ const LoginForm = () => {
           </CardHeader>
 
           <CardContent>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-5 sm:gap-6 lg:gap-7">
                 {/* EMAIL */}
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
+                    onChange={handleFormInputData}
                     id="email"
                     type="email"
                     placeholder="m@example.com"
@@ -81,6 +86,7 @@ const LoginForm = () => {
 
                   <div className="relative">
                     <Input
+                      onChange={handleFormInputData}
                       id="password"
                       type={showPassword ? "text" : "password"}
                       required
@@ -102,6 +108,8 @@ const LoginForm = () => {
               <div className="grid gap-2 mt-5">
                 <Label htmlFor="role">Select User Type:</Label>
                 <select
+                  required
+                  onChange={handleFormInputData}
                   name="role"
                   id="role"
                   defaultValue=""
@@ -120,7 +128,9 @@ const LoginForm = () => {
                 </p>
               )}
               <div className="flex-col gap-3 pt-4">
-                <Button className="w-full py-5">Login</Button>
+                <Button className="w-full py-5" type="submit">
+                  Login
+                </Button>
                 <p className="text-sm text-center mt-3">
                   New here?{" "}
                   <Link to="/signup" className="underline">

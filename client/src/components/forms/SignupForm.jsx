@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -30,7 +29,7 @@ const SignupForm = () => {
   const handleFormInputs = (e) => {
     const id = e.target.id;
     const value = e.target.value;
-    // const {id, target} = e.target
+    // const {id, value} = e.target
     setFormData((prevState) => ({ ...prevState, [id]: value }));
   };
 
