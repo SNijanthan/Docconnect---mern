@@ -46,7 +46,7 @@ const createAppointment = async (req, res) => {
       createAppointment,
     });
   } catch (error) {
-    return res.status(400).json({ status: false, error: error.message });
+    return res.status(400).json({ status: false, message: error.message });
   }
 };
 
@@ -72,7 +72,7 @@ const getAppointmentDetails = async (req, res) => {
       appointments,
     });
   } catch (error) {
-    return res.status(400).json({ status: false, error: error.message });
+    return res.status(400).json({ status: false, message: error.message });
   }
 };
 
@@ -136,7 +136,7 @@ const cancelAppointment = async (req, res) => {
       updateAppointment,
     });
   } catch (error) {
-    return res.status(400).json({ status: false, error: error.message });
+    return res.status(400).json({ status: false, message: error.message });
   }
 };
 
@@ -164,7 +164,7 @@ const getBookingsDetails = async (req, res) => {
       appointments,
     });
   } catch (error) {
-    return res.status(400).json({ status: false, error: error.message });
+    return res.status(400).json({ status: false, message: error.message });
   }
 };
 

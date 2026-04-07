@@ -40,7 +40,7 @@ const userRegister = async (req, res) => {
       .status(201)
       .json({ status: true, message: "User created successfully" });
   } catch (error) {
-    res.status(400).json({ status: false, error: error.message });
+    res.status(400).json({ status: false, message: error.message });
   }
 };
 
@@ -114,7 +114,7 @@ const doctorRegister = async (req, res) => {
       .status(201)
       .json({ status: true, message: "Doctor created successfully" });
   } catch (error) {
-    res.status(400).json({ status: false, error: error.message });
+    res.status(400).json({ status: false, message: error.message });
   }
 };
 

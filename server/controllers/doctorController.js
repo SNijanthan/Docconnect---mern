@@ -36,7 +36,7 @@ const getDoctors = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ status: false, error: error.message });
+    res.status(500).json({ status: false, message: error.message });
   }
 };
 
