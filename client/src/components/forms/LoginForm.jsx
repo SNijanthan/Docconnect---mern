@@ -97,7 +97,7 @@ const LoginForm = () => {
                       type="button"
                       variant="ghost"
                       size="icon"
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 hover:cursor-pointer"
                       onClick={() => setShowPassword((prev) => !prev)}
                     >
                       {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -113,13 +113,13 @@ const LoginForm = () => {
                   name="role"
                   id="role"
                   defaultValue=""
-                  className="p-3 rounded-md border border-border bg-background text-foreground"
+                  className="p-3 rounded-md border border-border bg-background text-foreground hover:cursor-pointer"
                 >
                   <option value="" disabled>
                     Please select here
                   </option>
                   <option value="user">User</option>
-                  <option value="admin">Doctor</option>
+                  <option value="doctor">Doctor</option>
                 </select>
               </div>
               {error && (
@@ -128,7 +128,10 @@ const LoginForm = () => {
                 </p>
               )}
               <div className="flex-col gap-3 pt-4">
-                <Button className="w-full py-5" type="submit">
+                <Button
+                  className="w-full py-5 hover:cursor-pointer hover:bg-gray-50"
+                  type="submit"
+                >
                   Login
                 </Button>
                 <p className="text-sm text-center mt-3">

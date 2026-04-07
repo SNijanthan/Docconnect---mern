@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
+import axios from "axios";
 
 const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,7 +25,7 @@ const SignupForm = () => {
     role: "",
   });
 
-  const [error, setError] = useState(true);
+  const [error, setError] = useState(false);
 
   const handleFormInputs = (e) => {
     const id = e.target.id;
@@ -33,9 +34,19 @@ const SignupForm = () => {
     setFormData((prevState) => ({ ...prevState, [id]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/user/register`,
+        formData,
+      );
+      console.log(res);
+    } catch (error) {
+      console.log("ERROR 👉", error.response?.data);
+      setError(error.response?.data?.error || error.response?.data?.message);
+    }
   };
 
   return (
@@ -106,7 +117,7 @@ const SignupForm = () => {
                       type="button"
                       variant="ghost"
                       size="icon"
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 hover:cursor-pointer"
                       onClick={() => setShowPassword((prev) => !prev)}
                     >
                       {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -121,7 +132,7 @@ const SignupForm = () => {
                     name="gender"
                     id="gender"
                     defaultValue=""
-                    className="p-3 rounded-md border border-border bg-background text-foreground"
+                    className="p-3 rounded-md border border-border bg-background text-foreground hover:cursor-pointer"
                     onChange={handleFormInputs}
                   >
                     <option value="" disabled>
@@ -139,7 +150,7 @@ const SignupForm = () => {
                     name="role"
                     id="role"
                     defaultValue=""
-                    className="p-3 rounded-md border border-border bg-background text-foreground"
+                    className="p-3 rounded-md border border-border bg-background text-foreground hover:cursor-pointer"
                     onChange={handleFormInputs}
                   >
                     <option value="" disabled>
@@ -150,15 +161,14 @@ const SignupForm = () => {
                   </select>
                 </div>
               </div>
-              <p>
-                {error && (
-                  <p className="text-red-600 text-center mt-1">
-                    Error message goes here
-                  </p>
-                )}
-              </p>
+              {error && (
+                <p className="text-red-600 text-center mt-1">{error}</p>
+              )}
               <div className="flex-col gap-3 pt-4">
-                <Button type="submit" className="w-full py-5">
+                <Button
+                  type="submit"
+                  className="w-full py-5 hover:cursor-pointer hover:bg-gray-50"
+                >
                   Signup
                 </Button>
                 <p className="text-sm text-center mt-3">
