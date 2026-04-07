@@ -38,9 +38,9 @@ const LoginForm = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors">
       {/* HEADER */}
-      <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-border">
+      <div className="flex items-center justify-between px-4 sm:px-6 py-4 sticky top-0 z-50 backdrop-blur-lg bg-background/60 border-b border-border/50 shadow-sm">
         <Link to="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="doc-connect" className="w-8 h-8" />
+          <img src="/logo.png" alt="doc-connect-logo" className="w-8 h-8" />
           <h1 className="text-lg sm:text-xl font-semibold">DocConnect</h1>
         </Link>
 
@@ -129,15 +129,24 @@ const LoginForm = () => {
               )}
               <div className="flex-col gap-3 pt-4">
                 <Button
-                  className="w-full py-5 hover:cursor-pointer hover:bg-gray-50"
+                  className="w-full py-5 hover:cursor-pointer "
                   type="submit"
                 >
                   Login
                 </Button>
-                <p className="text-sm text-center mt-3">
+              </div>
+              <div className="flex flex-col items-center mt-4 gap-2">
+                <p className="text-sm text-center mb-2">
                   New here?{" "}
                   <Link to="/signup" className="underline">
                     Sign Up
+                  </Link>
+                </p>
+
+                <p className="text-sm text-center">
+                  Are you a doctor?{" "}
+                  <Link to="/doctor/signup" className="underline">
+                    Join our platform
                   </Link>
                 </p>
               </div>

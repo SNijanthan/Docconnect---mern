@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
 import axios from "axios";
 
-const SignupForm = () => {
+const UserSignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -52,9 +52,9 @@ const SignupForm = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors">
       {/* HEADER */}
-      <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-border">
+      <div className="flex items-center justify-between px-4 sm:px-6 py-4 sticky top-0 z-50 backdrop-blur-lg bg-background/60 border-b border-border/50 shadow-sm">
         <Link to="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="doc-connect" className="w-8 h-8" />
+          <img src="/logo.png" alt="doc-connect-logo" className="w-8 h-8" />
           <h1 className="text-lg sm:text-xl font-semibold">DocConnect</h1>
         </Link>
 
@@ -167,7 +167,7 @@ const SignupForm = () => {
               <div className="flex-col gap-3 pt-4">
                 <Button
                   type="submit"
-                  className="w-full py-5 hover:cursor-pointer hover:bg-gray-50"
+                  className="w-full py-5 hover:cursor-pointer"
                 >
                   Signup
                 </Button>
@@ -186,4 +186,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default UserSignupForm;
