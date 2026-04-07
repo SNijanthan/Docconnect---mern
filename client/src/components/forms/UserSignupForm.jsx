@@ -41,7 +41,7 @@ const UserSignupForm = () => {
     e.preventDefault();
     try {
       const data = await userRegister(formData);
-      console.log(data.status);
+      console.log(data);
       setError("");
       showSuccess(
         "Your account has been created successfully 🎉 Redirecting...",

@@ -10,14 +10,17 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
-import axios from "axios";
+import { doctorRegister } from "../../services/authService";
+import { showError, showSuccess } from "../../utils/toast";
 
 const DoctorSignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleFormInputs = (e) => {
     const { id, value } = e.target;
@@ -40,14 +43,19 @@ const DoctorSignupForm = () => {
         specialties: formData.specialties?.split(","),
         credentials: formData.credentials?.split(","),
       };
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/doctor/register`,
-        payload,
+
+      const data = await doctorRegister(payload);
+      console.log(data);
+      setError("");
+      showSuccess(
+        "Your account has been created successfully 🎉 Redirecting...",
       );
-      console.log(res);
+      setFormData({});
+      setTimeout(() => navigate("/"), 1500);
     } catch (error) {
-      console.log("ERROR 👉", error.response?.data);
-      setError(error.response?.data?.error || error.response?.data?.message);
+      console.log("ERROR 👉", error);
+      setError(error.message);
+      showError(error.message);
     }
   };
 

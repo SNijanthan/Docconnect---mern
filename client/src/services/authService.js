@@ -12,8 +12,18 @@ export const userRegister = async (formData) => {
   }
 };
 
-export const userLogin = async () => {};
+export const doctorRegister = async (formData) => {
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/auth/doctor/register`,
+      formData,
+    );
+    return res.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
 
-export const doctorRegister = async () => {};
+export const userLogin = async () => {};
 
 export const doctorLogin = async () => {};
