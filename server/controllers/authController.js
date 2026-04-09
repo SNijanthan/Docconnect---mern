@@ -50,13 +50,19 @@ const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const token = await loginService(User, email, password);
+    const { token, user } = await loginService(User, email, password);
 
     res.cookie("token", token, { httpOnly: true });
 
     return res.status(200).json({
       status: true,
       message: "User logged in successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+      role: user.role,
     });
   } catch (error) {
     return res.status(400).json({
@@ -124,13 +130,19 @@ const doctorLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const token = await loginService(Doctor, email, password);
+    const { token, user } = await loginService(Doctor, email, password);
 
     res.cookie("token", token, { httpOnly: true });
 
     return res.status(200).json({
       status: true,
       message: "Doctor logged in successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+      role: user.role,
     });
   } catch (error) {
     return res.status(400).json({

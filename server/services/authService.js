@@ -23,7 +23,7 @@ const loginService = async (Model, email, password) => {
     },
   );
 
-  return token;
+  return { token, user };
 };
 
 module.exports = loginService;
