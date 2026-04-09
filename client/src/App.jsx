@@ -1,12 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import LoginForm from "./components/forms/LoginForm";
 import UserSignupForm from "./components/forms/UserSignupForm";
-import DoctorDashboard from "./components/Main/DoctorDashboard";
-import UserDashboard from "./components/Main/UserDashboard";
-import Layout from "./components/Layout";
+import DoctorDashboard from "./components/Dashboard/DoctorDashboard";
+import UserDashboard from "./components/Dashboard/UserDashboard";
 import DoctorSignupForm from "./components/forms/DoctorSignupForm";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Toaster } from "sonner";
+import Layout from "./components/Layout/Layout";
 
 function App() {
   return (

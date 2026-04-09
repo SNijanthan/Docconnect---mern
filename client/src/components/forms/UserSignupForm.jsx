@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
-import { userRegister } from "../../services/authService";
+import { userRegister } from "../../api/authApi";
 import { showError, showSuccess } from "../../utils/toast";
 
 const UserSignupForm = () => {

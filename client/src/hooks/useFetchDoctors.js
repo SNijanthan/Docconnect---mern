@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { allDoctors } from "../store/doctorsSlice";
+import { allDoctors } from "../store/slices/doctorsSlice";
 import { useEffect } from "react";
 
 export const useFetchDoctors = () => {
