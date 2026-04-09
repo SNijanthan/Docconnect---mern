@@ -32,7 +32,6 @@ export const loginAuth = async (formData) => {
       formData,
       { withCredentials: true },
     );
-    console.log(res.data);
     return res.data;
   } catch (error) {
     const errData = error.response?.data;

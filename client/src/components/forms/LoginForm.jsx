@@ -14,12 +14,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
 import { loginAuth } from "../../services/authService";
 import { showError, showSuccess } from "../../utils/toast";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/authSlice";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -38,11 +41,20 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const data = await loginAuth(formData);
-      console.log(data);
+      dispatch(
+        login({
+          user: data.user,
+          role: data.role,
+        }),
+      );
       setError("");
       showSuccess("Login successful 🎉 Redirecting...");
-      setFormData({});
-      setTimeout(() => navigate("/main"), 1500);
+      setFormData({ email: "", password: "" });
+      if (data.role === "doctor") {
+        navigate("/doctor/dashboard");
+      } else {
+        navigate("/user/dashboard");
+      }
     } catch (error) {
       setError(error.message);
       showError(error.message);

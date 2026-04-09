@@ -1,7 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import LoginForm from "./components/forms/LoginForm";
 import UserSignupForm from "./components/forms/UserSignupForm";
-import Main from "./components/Main";
+import DoctorDashboard from "./components/Main/DoctorDashboard";
+import UserDashboard from "./components/Main/UserDashboard";
 import Layout from "./components/Layout";
 import DoctorSignupForm from "./components/forms/DoctorSignupForm";
 import { Toaster } from "sonner";
@@ -17,7 +18,8 @@ function App() {
 
         {/* Protected / App routes */}
         <Route element={<Layout />}>
-          <Route path="/main" element={<Main />} />
+          <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
+          <Route path="/user/dashboard" element={<UserDashboard />} />
         </Route>
       </Routes>
       <Toaster
