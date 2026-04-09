@@ -53,7 +53,7 @@ const LoginForm = () => {
       if (data.role === "doctor") {
         navigate("/doctor/dashboard");
       } else {
-        navigate("/user/dashboard");
+        navigate("/home");
       }
     } catch (error) {
       setError(error.message);
