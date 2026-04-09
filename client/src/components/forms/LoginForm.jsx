@@ -41,6 +41,7 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const data = await loginAuth(formData);
+      console.log("DATA:", data);
       dispatch(
         login({
           user: data.user,

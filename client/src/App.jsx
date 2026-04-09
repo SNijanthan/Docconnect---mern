@@ -5,6 +5,7 @@ import DoctorDashboard from "./components/Main/DoctorDashboard";
 import UserDashboard from "./components/Main/UserDashboard";
 import Layout from "./components/Layout";
 import DoctorSignupForm from "./components/forms/DoctorSignupForm";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { Toaster } from "sonner";
 
 function App() {
@@ -16,12 +17,21 @@ function App() {
         <Route path="/signup" element={<UserSignupForm />} />
         <Route path="/doctor/signup" element={<DoctorSignupForm />} />
 
-        {/* Protected / App routes */}
-        <Route element={<Layout />}>
-          <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
-          <Route path="/user/dashboard" element={<UserDashboard />} />
+        {/* Doctor Protected */}
+        <Route element={<ProtectedRoute allowedRole="doctor" />}>
+          <Route element={<Layout />}>
+            <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
+          </Route>
+        </Route>
+
+        {/*  User Protected */}
+        <Route element={<ProtectedRoute allowedRole="user" />}>
+          <Route element={<Layout />}>
+            <Route path="/user/dashboard" element={<UserDashboard />} />
+          </Route>
         </Route>
       </Routes>
+
       <Toaster
         position="top-center"
         expand={true}
