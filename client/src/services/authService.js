@@ -30,8 +30,9 @@ export const loginAuth = async (formData) => {
     const res = await axios.post(
       `${import.meta.env.VITE_API_URL}/auth/user/login`,
       formData,
+      { withCredentials: true },
     );
-
+    console.log(res.data);
     return res.data;
   } catch (error) {
     const errData = error.response?.data;
@@ -44,9 +45,10 @@ export const loginAuth = async (formData) => {
       try {
         const res = await axios.post(
           `${import.meta.env.VITE_API_URL}/auth/doctor/login`,
-          formData, // ✅ correct payload
+          formData,
+          { withCredentials: true },
         );
-
+        console.log(res.data);
         return res.data;
       } catch (doctorError) {
         // 🔴 Doctor login also failed → throw error
