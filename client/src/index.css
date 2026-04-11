@@ -1,3 +1,4 @@
+@import url("https://googleapis.com");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -104,4 +105,9 @@
   html {
     @apply font-sans;
   }
+}
+
+@theme {
+  --font-poppins: "Poppins", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
 }

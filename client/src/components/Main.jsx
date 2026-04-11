@@ -5,11 +5,13 @@ import HeroFooter from "./home/HeroFooter";
 
 const Main = () => {
   return (
-    <div className="w-4/6 m-auto flex flex-col items-center justify-center gap-10">
+    <div className="flex flex-col items-center justify-center gap-10">
       <HeroSection />
-      <StatsSection />
-      <FAQAccordion />
-      <HeroFooter />
+      <div className="w-10/12">
+        <StatsSection />
+        <FAQAccordion />
+        <HeroFooter />
+      </div>
     </div>
   );
 };

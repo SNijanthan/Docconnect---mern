@@ -59,9 +59,18 @@ const items = [
 const FAQAccordion = () => {
   return (
     <>
-      <Accordion type="single" collapsible="true" className="w-full ">
+      <Accordion
+        type="single"
+        className="w-full"
+        collapsible
+        defaultValue="item-1"
+      >
         {items.map((item) => (
-          <AccordionItem key={item.value} value={item.value}>
+          <AccordionItem
+            key={item.value}
+            value={item.value}
+            className="py-2 px-1"
+          >
             <AccordionTrigger>{item.trigger}</AccordionTrigger>
             <AccordionContent>{item.content}</AccordionContent>
           </AccordionItem>

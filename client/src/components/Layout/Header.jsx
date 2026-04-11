@@ -17,9 +17,9 @@ const Header = () => {
             <Button
               variant="default"
               size="lg"
-              className="hover:scale-105 hover:cursor-pointer py-4 px-10"
+              className="hover:scale-105 hover:cursor-pointer py-5 px-10 bg-sky-500 hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-500 transition"
             >
-              Consult now
+              Consult Now
             </Button>
           )}
           <ModeToggle />

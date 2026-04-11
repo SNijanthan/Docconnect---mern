@@ -1,7 +1,33 @@
-import React from "react";
+import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
-  return <div>HeroSection</div>;
+  return (
+    <section className="w-full bg-sky-50 dark:bg-slate-900">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-20 flex flex-col-reverse md:flex-row items-center justify-between gap-10">
+        <div className="w-full md:w-1/2 space-y-6 text-center md:text-left">
+          <p className="font-semibold text-sky-500 dark:text-sky-400 text-lg md:text-xl">
+            Healthcare, made accessible everywhere.
+          </p>
+
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 dark:text-white">
+            Connect With Trusted Doctors Online In Minutes.
+          </h1>
+
+          <Button className="mt-4 px-8 py-6 text-base md:text-lg bg-sky-500 hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-500 transition">
+            Consult Now
+          </Button>
+        </div>
+
+        <div className="w-full md:w-1/2 flex justify-center">
+          <img
+            src="/banner-doctors.webp"
+            alt="doctor-banner"
+            className="w-70 sm:w-87.5 md:w-105 object-contain"
+          />
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default HeroSection;
