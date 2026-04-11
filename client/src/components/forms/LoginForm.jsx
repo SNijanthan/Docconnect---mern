@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
 import { loginAuth } from "../../api/authApi";
-import { showError, showSuccess } from "../../utils/toast";
+import { showError } from "../../utils/toast";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/slices/authSlice";
 
@@ -48,7 +48,6 @@ const LoginForm = () => {
         }),
       );
       setError("");
-      showSuccess("Login successful 🎉 Redirecting...");
       setFormData({ email: "", password: "" });
       if (data.role === "doctor") {
         navigate("/doctor/dashboard");

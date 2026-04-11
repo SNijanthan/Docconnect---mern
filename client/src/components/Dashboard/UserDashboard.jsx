@@ -3,7 +3,6 @@ import { useFetchDoctors } from "../../hooks/useFetchDoctors";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardAction,
   CardDescription,
   CardFooter,
   CardHeader,
