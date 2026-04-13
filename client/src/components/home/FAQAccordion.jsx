@@ -40,7 +40,7 @@ const items = [
 
 const FAQAccordion = () => {
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-16 bg-sky-50 dark:bg-slate-950">
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-16 bg-sky-100 dark:bg-slate-950">
       {/* Heading */}
       <div className="max-w-xl mx-auto text-center mb-10">
         <h2 className="text-2xl sm:text-3xl font-bold">
@@ -55,7 +55,7 @@ const FAQAccordion = () => {
       <div className="max-w-xl mx-auto">
         <Accordion
           type="single"
-          collapsible
+          collapsible="true"
           defaultValue="item-1"
           className="space-y-4"
         >

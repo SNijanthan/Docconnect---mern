@@ -1,39 +1,61 @@
-import * as React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const BrowseSpecialties = () => {
+  const navigate = useNavigate();
+
+  const specialties = [
+    "general-physician",
+    "dermatology",
+    "psychiatry",
+    "pediatrics",
+    "gastroenterology",
+    "cardiology",
+    "orthopedics",
+    "neurology",
+    "gynecology",
+    "ent",
+  ];
+
   return (
-    <div>
-      <Carousel
-        opts={{
-          align: "start",
-        }}
-        className="w-full max-w-48 sm:max-w-xs md:max-w-sm"
-      >
-        <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem key={index} className="basis-1/2 lg:basis-1/3">
-              <div className="p-1">
-                <Card>
-                  <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <span className="text-3xl font-semibold">{index + 1}</span>
-                  </CardContent>
-                </Card>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-    </div>
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-12 bg-sky-100 dark:bg-slate-950">
+      {/* Heading */}
+      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10 font-roboto">
+        Consult top doctors online for any health concern
+      </h2>
+
+      {/* Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 max-w-5xl mx-auto font-poppins">
+        {specialties.map((specialty) => (
+          <div
+            key={specialty}
+            className="flex flex-col items-center text-center"
+          >
+            {/* Clickable Image */}
+            <img
+              src={`/icons/${specialty}.jpg`}
+              alt={specialty}
+              onClick={() => navigate(`/doctors/${specialty}`)}
+              className="
+                w-20 h-20 sm:w-24 sm:h-24
+                rounded-full object-cover
+                cursor-pointer
+
+                transition-transform duration-200
+                hover:scale-105 active:scale-95
+              "
+            />
+
+            {/* Label */}
+            <p className="mt-5 text-xs sm:text-sm font-medium text-gray-800 dark:text-gray-200">
+              {specialty
+                .replace("-", " ")
+                .replace(/\b\w/g, (c) => c.toUpperCase())}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 };
 

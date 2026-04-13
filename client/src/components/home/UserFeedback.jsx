@@ -155,7 +155,7 @@ const feedbackData = [
 
 const UserFeedback = () => {
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-10 bg-sky-50 dark:bg-slate-950">
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-10 bg-sky-100 dark:bg-slate-950">
       <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">
         What Our Users Say 💬
       </h2>

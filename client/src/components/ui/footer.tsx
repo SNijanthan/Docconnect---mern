@@ -23,7 +23,7 @@ export function Footer() {
             <div className="flex gap-2">
               {socialLinks.map((item, index) => (
                 <Button
-                  asChild
+                  aschild="true"
                   key={`social-${item.link}-${index}`}
                   size="icon-sm"
                   variant="outline"

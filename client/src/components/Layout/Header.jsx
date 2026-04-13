@@ -1,11 +1,34 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
-import { useSelector } from "react-redux";
-import { Button } from "@/components/ui/button";
-import { ClipboardClock } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../store/slices/authSlice";
+import axios from "axios";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const { role } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/logout`,
+        {},
+        { withCredentials: true },
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    dispatch(logout());
+    navigate("/login");
+  };
 
   return (
     <div className="flex items-center justify-between px-4 sm:px-6 py-3 sticky top-0 z-50 backdrop-blur-lg bg-background/60 border-b border-border/50 shadow-sm">
@@ -17,35 +40,23 @@ const Header = () => {
         </h1>
       </Link>
 
-      {/* Right Side */}
       <div className="flex items-center gap-2 sm:gap-4">
         {role === "user" && (
-          <Button
-            className="
-    inline-flex items-center gap-1.5
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-2 px-3 py-1.5 rounded-lg border">
+              Manage
+            </DropdownMenuTrigger>
 
-    px-3 py-1.5
-    sm:px-4 sm:py-2
+            <DropdownMenuContent className="w-48 z-100" align="end">
+              <DropdownMenuItem onClick={() => navigate("/my-appointments")}>
+                My Appointments
+              </DropdownMenuItem>
 
-    text-xs sm:text-sm font-medium
-
-    bg-sky-500 hover:bg-sky-600
-    dark:bg-sky-600 dark:hover:bg-sky-500
-
-    rounded-lg
-    shadow-none hover:shadow-sm
-
-    transition-all duration-200
-
-    whitespace-nowrap
-  "
-          >
-            {/* Icon */}
-            <ClipboardClock className="w-4 h-4" />
-
-            {/* Text (hidden on mobile) */}
-            <span className="hidden sm:inline">My Appointments</span>
-          </Button>
+              <DropdownMenuItem onClick={handleLogout} className="text-red-500">
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         )}
 
         <ModeToggle />
