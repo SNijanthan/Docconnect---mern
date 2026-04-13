@@ -4,8 +4,6 @@ const getDoctors = async (req, res) => {
   try {
     const doctors = await Doctor.find().select("-password");
 
-    const total = await Doctor.countDocuments();
-
     res.status(200).json({
       status: true,
       message: "Data fetched successfully",
