@@ -12,7 +12,7 @@ const ProtectedRoute = ({ allowedRole }) => {
     return role === "doctor" ? (
       <Navigate to="/doctor/dashboard" replace />
     ) : (
-      <Navigate to="/user/dashboard" replace />
+      <Navigate to="/home" replace />
     );
   }
 

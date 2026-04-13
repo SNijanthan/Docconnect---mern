@@ -2,13 +2,13 @@ import { Routes, Route } from "react-router-dom";
 import LoginForm from "./components/forms/LoginForm";
 import UserSignupForm from "./components/forms/UserSignupForm";
 import DoctorDashboard from "./components/dashboard/DoctorDashboard";
-import UserDashboard from "./components/dashboard/UserDashboard";
 import DoctorSignupForm from "./components/forms/DoctorSignupForm";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Toaster } from "sonner";
 import Layout from "./components/Layout/Layout";
 import Main from "./components/Main";
 import UserAppointments from "./components/dashboard/UserAppointments";
+import DoctorsList from "./pages/DoctorsList";
 
 function App() {
   return (
@@ -31,8 +31,8 @@ function App() {
         <Route element={<ProtectedRoute allowedRole="user" />}>
           <Route element={<Layout />}>
             <Route path="/home" element={<Main />} /> {/* ✅ changed */}
-            <Route path="/user/dashboard" element={<UserDashboard />} />
             <Route path="/user/appointments" element={<UserAppointments />} />
+            <Route path="/doctors/:specialty" element={<DoctorsList />} />
           </Route>
         </Route>
       </Routes>

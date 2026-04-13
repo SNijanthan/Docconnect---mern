@@ -29,17 +29,16 @@ const BrowseSpecialties = () => {
         {specialties.map((specialty) => (
           <div
             key={specialty}
-            className="flex flex-col items-center text-center"
+            onClick={() => navigate(`/doctors/${specialty}`)}
+            className="flex flex-col items-center text-center cursor-pointer"
           >
-            {/* Clickable Image */}
+            {/* Image */}
             <img
               src={`/icons/${specialty}.jpg`}
               alt={specialty}
-              onClick={() => navigate(`/doctors/${specialty}`)}
               className="
                 w-20 h-20 sm:w-24 sm:h-24
                 rounded-full object-cover
-                cursor-pointer
 
                 transition-transform duration-200
                 hover:scale-105 active:scale-95
@@ -47,7 +46,7 @@ const BrowseSpecialties = () => {
             />
 
             {/* Label */}
-            <p className="mt-5 text-xs sm:text-sm font-medium text-gray-800 dark:text-gray-200">
+            <p className="mt-4 text-xs sm:text-sm font-medium text-gray-800 dark:text-gray-200">
               {specialty
                 .replace("-", " ")
                 .replace(/\b\w/g, (c) => c.toUpperCase())}
