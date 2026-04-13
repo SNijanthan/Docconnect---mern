@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
+import { Stethoscope } from "lucide-react";
 
 const Header = () => {
   const { role } = useSelector((state) => state.auth);
@@ -20,19 +21,30 @@ const Header = () => {
       <div className="flex items-center gap-2 sm:gap-4">
         {role === "user" && (
           <Button
-            variant="default"
-            size="sm"
             className="
-              bg-sky-500 hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-500
-              transition
-              px-3 py-1.5
-              sm:px-4 sm:py-2
-              md:px-6 md:py-2.5
-              text-xs sm:text-sm md:text-base
-              whitespace-nowrap
-            "
+    inline-flex items-center gap-1.5
+
+    px-3 py-1.5
+    sm:px-4 sm:py-2
+
+    text-xs sm:text-sm font-medium
+
+    bg-sky-500 hover:bg-sky-600
+    dark:bg-sky-600 dark:hover:bg-sky-500
+
+    rounded-lg
+    shadow-none hover:shadow-sm
+
+    transition-all duration-200
+
+    whitespace-nowrap
+  "
           >
-            Consult Now
+            {/* Icon */}
+            <Stethoscope className="w-4 h-4" />
+
+            {/* Text (hidden on mobile) */}
+            <span className="hidden sm:inline">Consult Now</span>
           </Button>
         )}
 

@@ -16,17 +16,29 @@ const HeroSection = () => {
 
           <Button
             className="
-              mt-4 
-              px-5 py-3 
-              sm:px-6 sm:py-3.5 
-              md:px-8 md:py-4
-              text-sm sm:text-base md:text-lg
-              bg-sky-500 hover:bg-sky-600 
-              dark:bg-sky-600 dark:hover:bg-sky-500 
-              transition
-            "
+    mt-4 cursor-pointer
+    inline-flex items-center justify-center gap-2
+
+    px-4 py-2.5
+    sm:px-5 sm:py-3
+    md:px-6 md:py-3.5
+
+    text-sm sm:text-base font-medium
+
+    bg-sky-500 hover:bg-sky-600
+    dark:bg-sky-600 dark:hover:bg-sky-500
+
+    rounded-xl
+    shadow-sm hover:shadow-md
+
+    transition-all duration-300 ease-in-out
+    hover:scale-[1.02] active:scale-[0.98]
+
+    whitespace-nowrap
+  "
           >
             Consult Now
+            <span className="text-lg">→</span>
           </Button>
         </div>
 
@@ -35,7 +47,7 @@ const HeroSection = () => {
           <img
             src="/banner-doctors.webp"
             alt="doctor-banner"
-            className="w-64 sm:w-80 md:w-[420px] lg:w-[480px] object-contain"
+            className="w-64 sm:w-80 md:w-105 lg:w-120 object-contain"
           />
         </div>
       </div>
