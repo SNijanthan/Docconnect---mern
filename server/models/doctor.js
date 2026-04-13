@@ -56,6 +56,18 @@ const doctorSchema = new mongoose.Schema(
 
     specialties: {
       type: [String],
+      enum: [
+        "general-physician",
+        "dermatology",
+        "psychiatry",
+        "pediatrics",
+        "gastroenterology",
+        "cardiology",
+        "orthopedics",
+        "neurology",
+        "gynecology",
+        "ent",
+      ],
       required: true,
     },
 
