@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
-import { Stethoscope } from "lucide-react";
+import { ClipboardClock } from "lucide-react";
 
 const Header = () => {
   const { role } = useSelector((state) => state.auth);
@@ -41,10 +41,10 @@ const Header = () => {
   "
           >
             {/* Icon */}
-            <Stethoscope className="w-4 h-4" />
+            <ClipboardClock className="w-4 h-4" />
 
             {/* Text (hidden on mobile) */}
-            <span className="hidden sm:inline">Consult Now</span>
+            <span className="hidden sm:inline">My Appointments</span>
           </Button>
         )}
 

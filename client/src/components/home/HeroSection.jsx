@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Stethoscope } from "lucide-react";
 
 const HeroSection = () => {
   return (
@@ -16,29 +17,29 @@ const HeroSection = () => {
 
           <Button
             className="
-    mt-4 cursor-pointer
-    inline-flex items-center justify-center gap-2
+    inline-flex items-center gap-1.5
 
-    px-4 py-2.5
-    sm:px-5 sm:py-3
-    md:px-6 md:py-3.5
+    px-3 py-1.5
+    sm:px-4 sm:py-2
 
-    text-sm sm:text-base font-medium
+    text-xs sm:text-sm font-medium
 
     bg-sky-500 hover:bg-sky-600
     dark:bg-sky-600 dark:hover:bg-sky-500
 
-    rounded-xl
-    shadow-sm hover:shadow-md
+    rounded-lg
+    shadow-none hover:shadow-sm
 
-    transition-all duration-300 ease-in-out
-    hover:scale-[1.02] active:scale-[0.98]
+    transition-all duration-200
 
     whitespace-nowrap
   "
           >
-            Consult Now
-            <span className="text-lg">→</span>
+            {/* Icon */}
+            <Stethoscope className="w-4 h-4" />
+
+            {/* Text (hidden on mobile) */}
+            <span className=" sm:inline">Consult Now</span>
           </Button>
         </div>
 
