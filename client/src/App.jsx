@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { Toaster } from "sonner";
 import Layout from "./components/Layout/Layout";
 import Main from "./components/Main";
+import UserAppointments from "./components/dashboard/UserAppointments";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/home" element={<Main />} /> {/* ✅ changed */}
             <Route path="/user/dashboard" element={<UserDashboard />} />
+            <Route path="/user/appointments" element={<UserAppointments />} />
           </Route>
         </Route>
       </Routes>

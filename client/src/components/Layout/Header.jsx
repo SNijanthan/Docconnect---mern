@@ -48,7 +48,7 @@ const Header = () => {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent className="w-48 z-100" align="end">
-              <DropdownMenuItem onClick={() => navigate("/my-appointments")}>
+              <DropdownMenuItem onClick={() => navigate("/user/appointments")}>
                 My Appointments
               </DropdownMenuItem>
 
