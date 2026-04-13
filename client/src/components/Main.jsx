@@ -3,16 +3,16 @@ import FAQAccordion from "./home/FAQAccordion";
 import HeroFooter from "./home/HeroFooter";
 import UserFeedback from "./home/UserFeedback";
 import QuoteSection from "./home/QuoteSection";
+import StatsSection from "./home/StatsSection";
 
 const Main = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-10">
       <HeroSection />
+      <StatsSection />
       <QuoteSection />
       <UserFeedback />
-      <div className="w-7/12">
-        <FAQAccordion />
-      </div>
+      <FAQAccordion />
       <HeroFooter />
     </div>
   );

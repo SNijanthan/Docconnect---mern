@@ -40,25 +40,57 @@ const items = [
 
 const FAQAccordion = () => {
   return (
-    <>
-      <Accordion
-        type="single"
-        className="w-full"
-        collapsible
-        defaultValue="item-1"
-      >
-        {items.map((item) => (
-          <AccordionItem
-            key={item.value}
-            value={item.value}
-            className="py-2 px-1"
-          >
-            <AccordionTrigger>{item.trigger}</AccordionTrigger>
-            <AccordionContent>{item.content}</AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </>
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-16 bg-sky-50 dark:bg-slate-950">
+      {/* Heading */}
+      <div className="max-w-xl mx-auto text-center mb-10">
+        <h2 className="text-2xl sm:text-3xl font-bold">
+          Frequently Asked Questions ❓
+        </h2>
+        <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-2">
+          Everything you need to know before getting started
+        </p>
+      </div>
+
+      {/* Accordion */}
+      <div className="max-w-xl mx-auto">
+        <Accordion
+          type="single"
+          collapsible
+          defaultValue="item-1"
+          className="space-y-4"
+        >
+          {items.map((item) => (
+            <AccordionItem
+              key={item.value}
+              value={item.value}
+              className="bg-white dark:bg-slate-900 rounded-xl px-4 sm:px-5 py-2 shadow-sm border border-border/50"
+            >
+              <AccordionTrigger
+                className="
+                  text-left 
+                  text-sm sm:text-base 
+                  font-medium 
+                  leading-snug
+                "
+              >
+                {item.trigger}
+              </AccordionTrigger>
+
+              <AccordionContent
+                className="
+                  text-gray-600 dark:text-gray-400 
+                  text-sm sm:text-base 
+                  leading-relaxed
+                  pt-2
+                "
+              >
+                {item.content}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    </section>
   );
 };
 

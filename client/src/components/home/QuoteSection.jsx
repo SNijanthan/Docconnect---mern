@@ -9,11 +9,7 @@ const QuoteSection = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(import.meta.env.VITE_QUOTE_API_URL);
-
-        // Handle different API formats safely
-        const data = res.data;
-
-        setQuote(data);
+        setQuote(res.data);
       } catch (error) {
         console.error(error);
       } finally {
@@ -25,31 +21,28 @@ const QuoteSection = () => {
   }, []);
 
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-8 bg-sky-50 dark:bg-slate-950 flex justify-center rounded-xl">
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-12 bg-white dark:bg-slate-900 flex justify-center">
       {/* Card */}
-      <div className="w-full max-w-3xl bg-white dark:bg-slate-900 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 sm:p-8">
-        {/* Loading */}
+      <div className="w-full max-w-2xl bg-transparent text-center">
         {loading ? (
-          <p className="text-center text-gray-500 dark:text-gray-400">
-            Loading quote...
-          </p>
+          <p className="text-gray-500 dark:text-gray-400">Loading quote...</p>
         ) : quote ? (
           <>
             {/* Quote */}
-            <p className="text-lg sm:text-xl md:text-2xl text-center  font-medium leading-relaxed text-gray-800 dark:text-gray-200">
+            <p className="text-xl sm:text-2xl md:text-3xl font-medium leading-relaxed text-gray-800 dark:text-gray-200">
               “{quote.quote}”
             </p>
 
             {/* Divider */}
-            <div className="w-16 h-1 bg-sky-500 mx-auto my-4 rounded-full"></div>
+            <div className="w-16 h-1 bg-sky-500 mx-auto my-5 rounded-full"></div>
 
             {/* Author */}
-            <p className="text-right text-sm sm:text-base font-semibold text-gray-600 dark:text-gray-400">
+            <p className="text-sm sm:text-base font-semibold text-gray-600 dark:text-gray-400">
               — {quote.author}
             </p>
           </>
         ) : (
-          <p className="text-center text-red-500">Failed to load quote 😕</p>
+          <p className="text-red-500">Failed to load quote 😕</p>
         )}
       </div>
     </section>
