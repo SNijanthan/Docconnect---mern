@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
   return (
-    <section className="w-full bg-sky-50 dark:bg-slate-900">
+    <section className="w-full bg-sky-100 dark:bg-slate-900 rounded-xl">
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-20 flex flex-col-reverse md:flex-row items-center justify-between gap-10">
         <div className="w-full md:w-1/2 space-y-6 text-center md:text-left">
           <p className="font-semibold text-sky-500 dark:text-sky-400 text-lg md:text-xl">

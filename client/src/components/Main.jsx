@@ -1,17 +1,19 @@
 import HeroSection from "./home/HeroSection";
-import StatsSection from "./home/StatsSection";
 import FAQAccordion from "./home/FAQAccordion";
 import HeroFooter from "./home/HeroFooter";
+import UserFeedback from "./home/UserFeedback";
+import QuoteSection from "./home/QuoteSection";
 
 const Main = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-10">
       <HeroSection />
-      <div className="w-10/12">
-        <StatsSection />
+      <QuoteSection />
+      <UserFeedback />
+      <div className="w-7/12">
         <FAQAccordion />
-        <HeroFooter />
       </div>
+      <HeroFooter />
     </div>
   );
 };
