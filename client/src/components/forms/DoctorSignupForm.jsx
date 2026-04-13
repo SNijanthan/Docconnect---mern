@@ -40,20 +40,17 @@ const DoctorSignupForm = () => {
           state: formData.state,
           country: formData.country,
         },
-        specialties: formData.specialties?.split(","),
+        specialties: formData.specialty ? [formData.specialty] : [],
         credentials: formData.credentials?.split(","),
       };
 
-      const data = await doctorRegister(payload);
-      console.log(data);
+      await doctorRegister(payload);
+
       setError("");
-      showSuccess(
-        "Your account has been created successfully 🎉 Redirecting...",
-      );
+      showSuccess("Account created successfully 🎉 Redirecting...");
       setFormData({});
       setTimeout(() => navigate("/"), 1500);
     } catch (error) {
-      console.log("ERROR 👉", error);
       setError(error.message);
       showError(error.message);
     }
@@ -65,26 +62,28 @@ const DoctorSignupForm = () => {
       <div className="flex items-center justify-between px-4 sm:px-6 py-4 sticky top-0 z-50 backdrop-blur-md bg-background/60 border-b border-border/40 shadow-sm">
         <Link to="/" className="flex items-center gap-2">
           <img src="/logo.png" className="w-8 h-8" />
-          <h1 className="text-lg font-semibold">DocConnect</h1>
+          <h1 className="text-base sm:text-lg md:text-xl font-semibold">
+            DocConnect
+          </h1>
         </Link>
         <ModeToggle />
       </div>
 
       {/* FORM */}
       <div className="flex flex-1 justify-center px-4 py-6">
-        <Card className="w-full max-w-2xl p-6 shadow-xl">
+        <Card className="w-full max-w-2xl p-4 sm:p-6 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-3xl text-center">
+            <CardTitle className="text-2xl sm:text-3xl text-center">
               Join Our Healthcare Network
             </CardTitle>
-            <CardDescription className="text-center">
+            <CardDescription className="text-center text-sm sm:text-base">
               Fill in your details to start as a doctor
             </CardDescription>
           </CardHeader>
 
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* 🔹 BASIC INFO */}
+              {/* BASIC INFO */}
               <div>
                 <h3 className="font-semibold text-lg mb-3">
                   Basic Information
@@ -103,6 +102,7 @@ const DoctorSignupForm = () => {
                     onChange={handleFormInputs}
                   />
 
+                  {/* Password */}
                   <div className="relative">
                     <Input
                       id="password"
@@ -121,13 +121,13 @@ const DoctorSignupForm = () => {
                     </Button>
                   </div>
 
+                  {/* Gender */}
                   <div className="grid gap-2">
                     <Label htmlFor="gender">Select gender</Label>
                     <select
-                      name="gender"
                       id="gender"
+                      className="w-full p-3 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-sky-500"
                       defaultValue=""
-                      className="p-3 rounded-md border border-border bg-background text-foreground hover:cursor-pointer"
                       onChange={handleFormInputs}
                     >
                       <option value="" disabled>
@@ -143,7 +143,7 @@ const DoctorSignupForm = () => {
 
               <div className="border-t" />
 
-              {/* 🔹 CONTACT */}
+              {/* CONTACT */}
               <div>
                 <h3 className="font-semibold text-lg mb-3">Contact Details</h3>
 
@@ -153,7 +153,6 @@ const DoctorSignupForm = () => {
                     placeholder="Phone Number"
                     onChange={handleFormInputs}
                   />
-
                   <Input
                     id="imageUrl"
                     type="url"
@@ -161,11 +160,10 @@ const DoctorSignupForm = () => {
                     onChange={handleFormInputs}
                   />
 
-                  {/* Image Preview */}
                   {formData.imageUrl && (
                     <img
                       src={formData.imageUrl}
-                      className="w-16 h-16 rounded-full"
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover"
                     />
                   )}
                 </div>
@@ -173,7 +171,7 @@ const DoctorSignupForm = () => {
 
               <div className="border-t" />
 
-              {/* 🔹 ADDRESS */}
+              {/* ADDRESS */}
               <div>
                 <h3 className="font-semibold text-lg mb-3">Address</h3>
 
@@ -189,7 +187,7 @@ const DoctorSignupForm = () => {
                     onChange={handleFormInputs}
                   />
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Input
                       id="city"
                       placeholder="City"
@@ -212,18 +210,33 @@ const DoctorSignupForm = () => {
 
               <div className="border-t" />
 
-              {/* 🔹 PROFESSIONAL */}
+              {/* PROFESSIONAL */}
               <div>
                 <h3 className="font-semibold text-lg mb-3">
                   Professional Details
                 </h3>
 
                 <div className="grid gap-4">
-                  <Input
-                    id="specialties"
-                    placeholder="e.g. Cardiology, Neurology"
+                  <select
+                    id="specialty"
+                    className="w-full p-3 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    defaultValue=""
                     onChange={handleFormInputs}
-                  />
+                  >
+                    <option value="" disabled>
+                      Choose Specialty
+                    </option>
+                    <option value="general-physician">General Physician</option>
+                    <option value="dermatology">Dermatology</option>
+                    <option value="psychiatry">Psychiatry</option>
+                    <option value="pediatrics">Pediatrics</option>
+                    <option value="gastroenterology">Gastroenterology</option>
+                    <option value="cardiology">Cardiology</option>
+                    <option value="orthopedics">Orthopedics</option>
+                    <option value="neurology">Neurology</option>
+                    <option value="gynecology">Gynecology</option>
+                    <option value="ent">ENT</option>
+                  </select>
 
                   <Input
                     id="credentials"
@@ -234,12 +247,14 @@ const DoctorSignupForm = () => {
               </div>
 
               {/* ERROR */}
-              {error && <p className="text-red-600 text-center">{error}</p>}
+              {error && (
+                <p className="text-red-600 text-center text-sm">{error}</p>
+              )}
 
               {/* SUBMIT */}
               <Button
                 type="submit"
-                className="w-full py-5 font-semibold cursor-pointer"
+                className="w-full py-3 sm:py-5 font-semibold"
               >
                 Create Doctor Account
               </Button>
