@@ -86,36 +86,30 @@ const statsData = [
 
 const StatsSection = () => {
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-12 bg-sky-50 dark:bg-slate-950 flex justify-center">
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-10 bg-sky-50 dark:bg-slate-950">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">
+        Health Insights 💡
+      </h2>
+
       <Carousel
-        className="w-full max-w-3xl"
+        className="max-w-2xl mx-auto"
         plugins={[
           Autoplay({
             delay: 5000,
             stopOnInteraction: false,
-            stopOnMouseEnter: true,
           }),
         ]}
       >
         <CarouselContent>
           {statsData.map((stats) => (
             <CarouselItem key={stats.id} className="basis-full">
-              {/* Card */}
-              <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 p-6 sm:p-8 text-center">
+              <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-6 sm:p-8 text-center hover:shadow-lg transition">
                 {/* Icon */}
                 <div className="text-3xl sm:text-4xl mb-4">{stats.icon}</div>
 
                 {/* Text */}
-                <p className="text-lg sm:text-xl md:text-2xl font-medium leading-relaxed text-gray-800 dark:text-gray-200">
+                <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed">
                   {stats.text}
-                </p>
-
-                {/* Divider */}
-                <div className="w-16 h-1 bg-sky-500 mx-auto my-4 rounded-full"></div>
-
-                {/* Label */}
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Health Insight
                 </p>
               </div>
             </CarouselItem>

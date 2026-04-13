@@ -14,8 +14,8 @@ const Main = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-10">
       <HeroSection />
-      <BrowseSpecialties />
       <StatsSection />
+      <BrowseSpecialties />
       <UserFeedback />
       <FAQAccordion />
       <HeroFooter />
