@@ -30,7 +30,7 @@ function App() {
         {/* User */}
         <Route element={<ProtectedRoute allowedRole="user" />}>
           <Route element={<Layout />}>
-            <Route path="/home" element={<Main />} /> {/* ✅ changed */}
+            <Route path="/home" element={<Main />} />
             <Route path="/user/appointments" element={<UserAppointments />} />
             <Route path="/doctors/:specialty" element={<DoctorsList />} />
           </Route>

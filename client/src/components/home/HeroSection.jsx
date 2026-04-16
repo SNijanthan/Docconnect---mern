@@ -16,7 +16,7 @@ const HeroSection = () => {
         {/* Right Image */}
         <div className="w-full md:w-1/2 flex justify-center">
           <img
-            src="/banner-doctors.webp"
+            src="/banner-doctors-4.jpg"
             alt="doctor-banner"
             className="w-64 sm:w-80 md:w-105 lg:w-120 object-contain"
           />
