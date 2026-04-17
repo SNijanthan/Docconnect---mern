@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addAppointment } from "../store/slices/appointmentSlice"; // ✅ Redux
+
+const API_URL = import.meta.env.VITE_API_URL; // ✅ single source of truth
 
 const BOOKING_TYPES = [
   { value: "online", icon: "💻", label: "Online" },
@@ -47,25 +51,40 @@ function useFocusTrap(ref, isActive) {
   }, [isActive, ref]);
 }
 
-const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
+const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
+  // ✅ removed onSuccess prop
+  const dispatch = useDispatch(); // ✅ added
+  const navigate = useNavigate();
+
   const [date, setDate] = useState("");
   const [bookingType, setBookingType] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [attempted, setAttempted] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(""); // ✅ local success feedback
 
   const overlayRef = useRef(null);
   const modalRef = useRef(null);
   const triggerRef = useRef(null);
   const timerRef = useRef(null);
 
-  const navigate = useNavigate();
-
+  // Save trigger element for focus restore on close
   useEffect(() => {
-    if (isOpen) {
-      triggerRef.current = document.activeElement;
-    }
+    if (isOpen) triggerRef.current = document.activeElement;
   }, [isOpen]);
+
+  // Lock body scroll when open
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // Cleanup timers on unmount
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   const minDateTime = useMemo(() => {
     const now = new Date();
@@ -75,27 +94,21 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
 
   useFocusTrap(modalRef, isOpen);
 
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
   const resetForm = useCallback(() => {
     setDate("");
     setBookingType("");
     setError("");
     setAttempted(false);
+    setSuccessMsg("");
   }, []);
 
   const handleCancel = useCallback(() => {
     resetForm();
     setIsOpen(false);
-
     setTimeout(() => triggerRef.current?.focus(), 0);
   }, [resetForm, setIsOpen]);
 
+  // Escape key to close
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e) => {
@@ -105,10 +118,6 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, handleCancel]);
 
-  useEffect(() => {
-    return () => clearTimeout(timerRef.current);
-  }, []);
-
   const handleOverlayClick = (e) => {
     if (e.target === overlayRef.current) handleCancel();
   };
@@ -117,32 +126,34 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
     e.preventDefault();
     setAttempted(true);
 
-    if (!date || !bookingType) return;
+    if (!date || !bookingType) return; // ✅ client-side guard
 
     setLoading(true);
     setError("");
 
     try {
-      const formattedDateTime = new Date(date).toISOString();
-
       const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/appointment`,
+        `${API_URL}/appointment`, // ✅ no hardcoded localhost
         {
           doctor: doctor?._id,
           bookingType,
-          appointmentDateTime: formattedDateTime,
+          appointmentDateTime: new Date(date).toISOString(),
         },
         { withCredentials: true },
       );
 
-      if (onSuccess) onSuccess(data.createAppointment);
-      resetForm();
-      setIsOpen(false);
+      dispatch(addAppointment(data.createAppointment)); // ✅ update Redux store directly
 
-      timerRef.current = setTimeout(() => navigate("/home"), 2500);
+      setSuccessMsg("Appointment booked! Redirecting…");
+      resetForm();
+
+      timerRef.current = setTimeout(() => {
+        setIsOpen(false);
+        navigate("/home");
+      }, 2000);
     } catch (err) {
       setError(
-        err.response?.data?.message || "Something went wrong. Try again.",
+        err.response?.data?.message ?? "Something went wrong. Try again.",
       );
     } finally {
       setLoading(false);
@@ -158,7 +169,6 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:px-4 bg-black/50 backdrop-blur-sm"
       aria-hidden="false"
     >
-      {/* Modal Panel */}
       <div
         ref={modalRef}
         role="dialog"
@@ -184,15 +194,11 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
         <button
           onClick={handleCancel}
           className="
-            absolute top-4 right-4
-            w-10 h-10 flex items-center justify-center
-            rounded-full
-            text-slate-400 hover:text-slate-600
+            absolute top-4 right-4 w-10 h-10 flex items-center justify-center
+            rounded-full text-slate-400 hover:text-slate-600
             dark:text-slate-500 dark:hover:text-slate-300
-            bg-slate-100 dark:bg-slate-800
-            hover:bg-slate-200 dark:hover:bg-slate-700
-            active:scale-95 transition-all duration-150
-            touch-manipulation
+            bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700
+            active:scale-95 transition-all duration-150 touch-manipulation
           "
           aria-label="Close booking modal"
         >
@@ -234,7 +240,6 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
               <line x1="3" y1="10" x2="21" y2="10" />
             </svg>
           </div>
-
           <h2
             id="modal-title"
             className="text-xl font-semibold text-slate-900 dark:text-white"
@@ -252,6 +257,34 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
           </p>
         </div>
 
+        {/* ✅ Success Banner */}
+        {successMsg && (
+          <div
+            role="status"
+            className="
+            flex items-center gap-2 px-3 py-2.5 mb-4 rounded-xl
+            bg-green-50 dark:bg-green-900/20
+            border border-green-200 dark:border-green-800
+            text-green-700 dark:text-green-400 text-sm
+          "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-4 h-4 shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            {successMsg}
+          </div>
+        )}
+
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5" noValidate>
           {/* Consultation Type */}
@@ -259,7 +292,6 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
             <legend className="block text-sm font-medium text-slate-700 dark:text-slate-300">
               Consultation Type
             </legend>
-
             <div className="grid grid-cols-2 gap-3" role="group">
               {BOOKING_TYPES.map((opt) => {
                 const selected = bookingType === opt.value;
@@ -277,13 +309,10 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
                       ${
                         selected
                           ? "bg-sky-500 border-sky-500 text-white shadow-lg shadow-sky-500/25 scale-[1.02]"
-                          : `
-                              bg-slate-50 dark:bg-slate-800
-                              border-slate-200 dark:border-slate-700
-                              text-slate-600 dark:text-slate-400
-                              hover:border-sky-300 dark:hover:border-sky-700
-                              hover:text-sky-600 dark:hover:text-sky-400
-                            `
+                          : `bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700
+                           text-slate-600 dark:text-slate-400
+                           hover:border-sky-300 dark:hover:border-sky-700
+                           hover:text-sky-600 dark:hover:text-sky-400`
                       }
                     `}
                   >
@@ -295,8 +324,6 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
                 );
               })}
             </div>
-
-            {/* Inline validation hint */}
             {attempted && !bookingType && (
               <p
                 role="alert"
@@ -330,8 +357,7 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
                 border border-slate-200 dark:border-slate-700
                 text-slate-900 dark:text-slate-100
                 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent
-                dark:[color-scheme:dark] transition-all duration-150
-                touch-manipulation
+                dark:[color-scheme:dark] transition-all duration-150 touch-manipulation
               "
             />
             {attempted && !date && (
@@ -349,11 +375,10 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
             <div
               role="alert"
               className="
-                flex items-center gap-2 px-3 py-2.5 rounded-xl
-                bg-red-50 dark:bg-red-900/20
-                border border-red-200 dark:border-red-800
-                text-red-600 dark:text-red-400 text-sm
-              "
+              flex items-center gap-2 px-3 py-2.5 rounded-xl
+              bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800
+              text-red-600 dark:text-red-400 text-sm
+            "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -378,15 +403,14 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
           <div className="flex flex-col gap-3 sm:flex-row-reverse pt-1">
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !!successMsg} // ✅ disable after success too
               style={{ minHeight: "52px" }}
               className="
                 flex-1 rounded-xl text-sm font-semibold text-white
                 bg-sky-500 hover:bg-sky-600
                 disabled:opacity-40 disabled:cursor-not-allowed
                 shadow-md shadow-sky-500/25
-                active:scale-[0.98] transition-all duration-150
-                touch-manipulation
+                active:scale-[0.98] transition-all duration-150 touch-manipulation
               "
             >
               {loading ? (
@@ -430,8 +454,7 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor, onSuccess }) => {
                 bg-white dark:bg-slate-800
                 hover:bg-slate-50 dark:hover:bg-slate-700
                 disabled:opacity-40 disabled:cursor-not-allowed
-                active:scale-[0.98] transition-all duration-150
-                touch-manipulation
+                active:scale-[0.98] transition-all duration-150 touch-manipulation
               "
             >
               Cancel
