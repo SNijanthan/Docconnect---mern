@@ -48,7 +48,7 @@ const BrowseSpecialties = () => {
             {/* Label */}
             <p className="mt-4 text-xs sm:text-sm font-medium text-gray-800 dark:text-gray-200">
               {specialty
-                .replace("-", " ")
+                .replace(/-/g, " ")
                 .replace(/\b\w/g, (c) => c.toUpperCase())}
             </p>
           </div>
