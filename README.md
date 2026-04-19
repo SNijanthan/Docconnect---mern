@@ -353,25 +353,14 @@ Redux Toolkit is used to manage appointment state globally:
 
 ## 🚧 Project Status
 
-| Area              | Status         |
-| ----------------- | -------------- |
-| Backend API       | 🚧 In Progress |
-| Frontend UI       | 🚧 In Progress |
-| Authentication    | ✅ Complete    |
-| Appointment flows | ✅ Complete    |
-| Payments          | ⏳ Planned     |
-| Notifications     | ⏳ Planned     |
-
----
-
-## 📌 Roadmap
-
-- [ ] Payment integration (Razorpay / Stripe)
-- [ ] Email & SMS notifications on booking/status change
-- [ ] Doctor ratings and reviews
-- [ ] Real-time availability calendar
-- [ ] Admin dashboard
-- [ ] Mobile app (React Native)
+| Area              | Status      |
+| ----------------- | ----------- |
+| Backend API       | ✅ Complete |
+| Frontend UI       | ✅ Complete |
+| Authentication    | ✅ Complete |
+| Appointment flows | ✅ Complete |
+| Payments          | ⏳ Planned  |
+| Notifications     | ⏳ Planned  |
 
 ---
 
