@@ -41,7 +41,7 @@ const Header = () => {
       </Link>
 
       <div className="flex items-center gap-2 sm:gap-4">
-        {role === "user" && (
+        {role === "user" ? (
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-2 px-3 py-1.5 rounded-lg border">
               Manage
@@ -56,6 +56,15 @@ const Header = () => {
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg border text-red-500"
+            >
+              Logout
+            </DropdownMenuTrigger>
           </DropdownMenu>
         )}
 

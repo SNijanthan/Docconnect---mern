@@ -2,9 +2,9 @@ import axios from "axios";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addAppointment } from "../store/slices/appointmentSlice"; // ✅ Redux
+import { addAppointment } from "../store/slices/appointmentSlice";
 
-const API_URL = import.meta.env.VITE_API_URL; // ✅ single source of truth
+const API_URL = import.meta.env.VITE_API_URL;
 
 const BOOKING_TYPES = [
   { value: "online", icon: "💻", label: "Online" },
@@ -52,8 +52,7 @@ function useFocusTrap(ref, isActive) {
 }
 
 const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
-  // ✅ removed onSuccess prop
-  const dispatch = useDispatch(); // ✅ added
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [date, setDate] = useState("");
@@ -61,19 +60,17 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [attempted, setAttempted] = useState(false);
-  const [successMsg, setSuccessMsg] = useState(""); // ✅ local success feedback
+  const [successMsg, setSuccessMsg] = useState("");
 
   const overlayRef = useRef(null);
   const modalRef = useRef(null);
   const triggerRef = useRef(null);
   const timerRef = useRef(null);
 
-  // Save trigger element for focus restore on close
   useEffect(() => {
     if (isOpen) triggerRef.current = document.activeElement;
   }, [isOpen]);
 
-  // Lock body scroll when open
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
@@ -81,7 +78,6 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
     };
   }, [isOpen]);
 
-  // Cleanup timers on unmount
   useEffect(() => {
     return () => clearTimeout(timerRef.current);
   }, []);
@@ -108,7 +104,6 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
     setTimeout(() => triggerRef.current?.focus(), 0);
   }, [resetForm, setIsOpen]);
 
-  // Escape key to close
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e) => {
@@ -120,6 +115,23 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
 
   const handleOverlayClick = (e) => {
     if (e.target === overlayRef.current) handleCancel();
+  };
+
+  // ✅ Detect duplicate key error from MongoDB or backend message
+  const getDuplicateSlotError = (err) => {
+    const status = err.response?.status;
+    const message = (err.response?.data?.message ?? "").toLowerCase();
+
+    const isDuplicate =
+      status === 409 ||
+      message.includes("duplicate") ||
+      message.includes("already booked") ||
+      message.includes("slot") ||
+      message.includes("e11000");
+
+    return isDuplicate
+      ? "This time slot is already booked by another patient. Please pick a different date or time."
+      : null;
   };
 
   const handleSubmit = async (e) => {
@@ -151,8 +163,12 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
         navigate("/home");
       }, 2000);
     } catch (err) {
+      // ✅ Check for duplicate slot first, then fall back to server/generic message
+      const duplicateError = getDuplicateSlotError(err);
       setError(
-        err.response?.data?.message ?? "Something went wrong. Try again.",
+        duplicateError ??
+          err.response?.data?.message ??
+          "Something went wrong. Try again.",
       );
     } finally {
       setLoading(false);
@@ -256,16 +272,16 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
           </p>
         </div>
 
-        {/* ✅ Success Banner */}
+        {/* Success Banner */}
         {successMsg && (
           <div
             role="status"
             className="
-            flex items-center gap-2 px-3 py-2.5 mb-4 rounded-xl
-            bg-green-50 dark:bg-green-900/20
-            border border-green-200 dark:border-green-800
-            text-green-700 dark:text-green-400 text-sm
-          "
+              flex items-center gap-2 px-3 py-2.5 mb-4 rounded-xl
+              bg-green-50 dark:bg-green-900/20
+              border border-green-200 dark:border-green-800
+              text-green-700 dark:text-green-400 text-sm
+            "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -309,9 +325,9 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
                         selected
                           ? "bg-sky-500 border-sky-500 text-white shadow-lg shadow-sky-500/25 scale-[1.02]"
                           : `bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700
-                           text-slate-600 dark:text-slate-400
-                           hover:border-sky-300 dark:hover:border-sky-700
-                           hover:text-sky-600 dark:hover:text-sky-400`
+                             text-slate-600 dark:text-slate-400
+                             hover:border-sky-300 dark:hover:border-sky-700
+                             hover:text-sky-600 dark:hover:text-sky-400`
                       }
                     `}
                   >
@@ -346,7 +362,11 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
               type="datetime-local"
               value={date}
               min={minDateTime}
-              onChange={(e) => setDate(e.target.value)}
+              onChange={(e) => {
+                setDate(e.target.value);
+                // ✅ Clear duplicate error when user picks a new time
+                if (error) setError("");
+              }}
               required
               aria-required="true"
               aria-invalid={attempted && !date ? "true" : "false"}
@@ -369,19 +389,19 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
             )}
           </div>
 
-          {/* API Error */}
+          {/* ✅ API / Duplicate Error */}
           {error && (
             <div
               role="alert"
               className="
-              flex items-center gap-2 px-3 py-2.5 rounded-xl
-              bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800
-              text-red-600 dark:text-red-400 text-sm
-            "
+                flex items-start gap-2 px-3 py-2.5 rounded-xl
+                bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800
+                text-red-600 dark:text-red-400 text-sm
+              "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-4 h-4 shrink-0"
+                className="w-4 h-4 shrink-0 mt-0.5"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -402,7 +422,7 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
           <div className="flex flex-col gap-3 sm:flex-row-reverse pt-1">
             <button
               type="submit"
-              disabled={loading || !!successMsg} // ✅ disable after success too
+              disabled={loading || !!successMsg}
               style={{ minHeight: "52px" }}
               className="
                 flex-1 rounded-xl text-sm font-semibold text-white

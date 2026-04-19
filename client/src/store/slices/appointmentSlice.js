@@ -20,12 +20,17 @@ const appointmentsSlice = createSlice({
     },
     updateAppointmentStatus: (state, action) => {
       const { id, status } = action.payload;
-      const appt = state.userAppointments.find((a) => a._id === id);
-      if (appt) appt.bookingStatus = status;
+      const appointment = state.userAppointments.find((a) => a._id === id);
+      if (appointment) appointment.bookingStatus = status;
+    },
+    updateDoctorAppointmentStatus: (state, action) => {
+      const { id, status } = action.payload;
+      const appointment = state.doctorAppointments.find((a) => a._id === id);
+      if (appointment) appointment.bookingStatus = status;
     },
     removeAppointment: (state, action) => {
       state.userAppointments = state.userAppointments.filter(
-        (appt) => appt._id !== action.payload,
+        (appointment) => appointment._id !== action.payload,
       );
     },
     clearAppointments: (state) => {
@@ -40,6 +45,7 @@ export const {
   setDoctorAppointments,
   addAppointment,
   updateAppointmentStatus,
+  updateDoctorAppointmentStatus,
   removeAppointment,
   clearAppointments,
 } = appointmentsSlice.actions;
