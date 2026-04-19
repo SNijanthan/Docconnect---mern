@@ -126,14 +126,14 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
     e.preventDefault();
     setAttempted(true);
 
-    if (!date || !bookingType) return; // ✅ client-side guard
+    if (!date || !bookingType) return;
 
     setLoading(true);
     setError("");
 
     try {
       const { data } = await axios.post(
-        `${API_URL}/appointment`, // ✅ no hardcoded localhost
+        `${API_URL}/appointment`,
         {
           doctor: doctor?._id,
           bookingType,
@@ -142,12 +142,11 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
         { withCredentials: true },
       );
 
-      dispatch(addAppointment(data.createAppointment)); // ✅ update Redux store directly
-
+      dispatch(addAppointment(data.createAppointment));
       setSuccessMsg("Appointment booked! Redirecting…");
-      resetForm();
 
       timerRef.current = setTimeout(() => {
+        resetForm();
         setIsOpen(false);
         navigate("/home");
       }, 2000);
