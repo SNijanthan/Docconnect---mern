@@ -32,19 +32,25 @@ app.use(
   }),
 );
 
-app.options("*", cors());
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
 
-const port = process.env.PORT || 5000;
-
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api", doctorRoutes);
 app.use("/api", appointmentRoutes);
 
+const port = process.env.PORT || 5000;
+
 connectToDB()
   .then(() => {
-    console.log("Connected to DB successfully");
+    console.log("✅ Connected to DB successfully");
     app.listen(port, () => {
-      console.log(`Server running on port: ${port}`);
+      console.log(`🚀 Server running on port: ${port}`);
     });
   })
-  .catch((err) => console.log(err.message));
+  .catch((err) => {
+    console.error("❌ Startup Error:", err.message);
+    process.exit(1);
+  });
