@@ -50,7 +50,7 @@ appointmentSchema.index({ user: 1, bookingStatus: 1 });
 
 appointmentSchema.index({ createdAt: -1 });
 
-Prevent double booking (same doctor + same time)
+// Prevent double booking (same doctor + same time)
 appointmentSchema.index(
   { doctor: 1, appointmentDateTime: 1 },
   { unique: true },
