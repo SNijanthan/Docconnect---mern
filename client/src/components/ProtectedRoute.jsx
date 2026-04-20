@@ -16,7 +16,7 @@ const ProtectedRoute = ({ allowedRole }) => {
     );
   }
 
-  ✅ Allowed → render child routes
+  // ✅ Allowed → render child routes
   return <Outlet />;
 };
 

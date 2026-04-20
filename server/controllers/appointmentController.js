@@ -85,7 +85,7 @@ const cancelAppointment = async (req, res) => {
 
     const findAppointment = await Appointment.findById(id);
 
-    ! If the appointment is existing or not
+    // ! If the appointment is existing or not
 
     if (!findAppointment) {
       return res
@@ -93,7 +93,7 @@ const cancelAppointment = async (req, res) => {
         .json({ status: false, message: "No records found" });
     }
 
-    ! Only the user who created an appointment can delete the appointment
+    // ! Only the user who created an appointment can delete the appointment
 
     if (!findAppointment.user.equals(_id)) {
       return res.status(403).json({
@@ -102,7 +102,7 @@ const cancelAppointment = async (req, res) => {
       });
     }
 
-    ! Checking if the appointment is already cancelled or not
+    // ! Checking if the appointment is already cancelled or not
 
     if (findAppointment.bookingStatus === "cancelled") {
       return res.status(400).json({
@@ -111,7 +111,7 @@ const cancelAppointment = async (req, res) => {
       });
     }
 
-    ! Preventing cancelling previous/completed appointments
+    // ! Preventing cancelling previous/completed appointments
 
     if (findAppointment.appointmentDateTime < new Date()) {
       return res.status(400).json({
@@ -120,7 +120,7 @@ const cancelAppointment = async (req, res) => {
       });
     }
 
-    ! Updating the booking status as cancelled
+    // ! Updating the booking status as cancelled
 
     const updateAppointment = await Appointment.findByIdAndUpdate(
       id,
@@ -262,7 +262,8 @@ const rejectAppointment = async (req, res) => {
 
 const completeAppointment = async (req, res) => {
   try {
-    const { _id } = req.user; doctor
+    const { _id } = req.user;
+    doctor;
     const { id } = req.params;
 
     const updatedAppointment = await Appointment.findOneAndUpdate(
