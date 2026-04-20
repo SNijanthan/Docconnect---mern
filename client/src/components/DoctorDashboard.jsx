@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setDoctorAppointments,
   updateDoctorAppointmentStatus,
-} from "../../store/slices/appointmentSlice";
+} from "../store/slices/appointmentSlice";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
