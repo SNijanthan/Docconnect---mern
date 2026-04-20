@@ -1,9 +1,9 @@
 const Appointment = require("../models/appointment.js");
 const Doctor = require("../models/doctor.js");
 
-* For Users
+// * For Users
 
-! For creating appointments
+// ! For creating appointments
 
 const createAppointment = async (req, res) => {
   try {
@@ -50,7 +50,7 @@ const createAppointment = async (req, res) => {
   }
 };
 
-! Get user appointment details
+// ! Get user appointment details
 
 const getAppointmentDetails = async (req, res) => {
   try {
@@ -76,7 +76,7 @@ const getAppointmentDetails = async (req, res) => {
   }
 };
 
-! Cancel appointment
+// ! Cancel appointment
 
 const cancelAppointment = async (req, res) => {
   try {
@@ -140,9 +140,9 @@ const cancelAppointment = async (req, res) => {
   }
 };
 
-* For Doctors
+// * For Doctors
 
-! Get appointment booking details
+// ! Get appointment booking details
 
 const getBookingsDetails = async (req, res) => {
   try {
@@ -168,7 +168,7 @@ const getBookingsDetails = async (req, res) => {
   }
 };
 
-! Accept received appointments
+// ! Accept received appointments
 
 const acceptAppointment = async (req, res) => {
   try {
@@ -213,7 +213,7 @@ const acceptAppointment = async (req, res) => {
   }
 };
 
-! Reject received appointments
+// ! Reject received appointments
 
 const rejectAppointment = async (req, res) => {
   try {
@@ -258,7 +258,7 @@ const rejectAppointment = async (req, res) => {
   }
 };
 
-! Update completed appointment detail ["pending", "accepted", "rejected", "completed", "cancelled"]
+// ! Update completed appointment detail ["pending", "accepted", "rejected", "completed", "cancelled"]
 
 const completeAppointment = async (req, res) => {
   try {

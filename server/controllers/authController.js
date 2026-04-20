@@ -7,9 +7,9 @@ const {
 const hashPassword = require("../utils/passwordHashing.js");
 const loginService = require("../services/authService.js");
 
-* For user
+// * For user
 
-! New user register
+// ! New user register
 
 const userRegister = async (req, res) => {
   try {
@@ -44,7 +44,7 @@ const userRegister = async (req, res) => {
   }
 };
 
-! User login
+// ! User login
 
 const userLogin = async (req, res) => {
   try {
@@ -72,9 +72,9 @@ const userLogin = async (req, res) => {
   }
 };
 
-* For doctors
+// * For doctors
 
-! New doctor register
+// ! New doctor register
 
 const doctorRegister = async (req, res) => {
   try {
@@ -124,7 +124,7 @@ const doctorRegister = async (req, res) => {
   }
 };
 
-! doctor login
+// ! doctor login
 
 const doctorLogin = async (req, res) => {
   try {
@@ -152,7 +152,7 @@ const doctorLogin = async (req, res) => {
   }
 };
 
-! User && Doctor logout
+// ! User && Doctor logout
 
 const logout = async (req, res) => {
   try {
