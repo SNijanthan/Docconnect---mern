@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import LoginForm from "./components/forms/LoginForm";
 import UserSignupForm from "./components/forms/UserSignupForm";
-import DoctorDashboard from "./components/dashboard/DoctorDashboard";
+import DoctorDashboard from "./components/dashboard/DoctorDashboard.jsx";
 import DoctorSignupForm from "./components/forms/DoctorSignupForm";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Toaster } from "sonner";
 import Layout from "./components/Layout/Layout";
 import Main from "./components/Main";
-import UserAppointments from "./components/dashboard/UserAppointments";
+import UserAppointments from "./components/dashboard/UserAppointments.jsx";
 import DoctorsList from "./pages/DoctorsList";
 
 function App() {
