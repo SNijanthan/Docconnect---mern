@@ -52,7 +52,11 @@ const userLogin = async (req, res) => {
 
     const { token, user } = await loginService(User, email, password);
 
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
 
     return res.status(200).json({
       status: true,
@@ -132,7 +136,11 @@ const doctorLogin = async (req, res) => {
 
     const { token, user } = await loginService(Doctor, email, password);
 
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
 
     return res.status(200).json({
       status: true,
