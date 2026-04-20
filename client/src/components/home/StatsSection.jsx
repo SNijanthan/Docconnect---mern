@@ -3,7 +3,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-
 import Autoplay from "embla-carousel-autoplay";
 
 const statsData = [
@@ -27,11 +26,7 @@ const statsData = [
     icon: "❤️",
     text: "Heart disease is the leading cause of death globally",
   },
-  {
-    id: 5,
-    icon: "🍔",
-    text: "1 in 4 adults in India is overweight or obese",
-  },
+  { id: 5, icon: "🍔", text: "1 in 4 adults in India is overweight or obese" },
   {
     id: 6,
     icon: "🧠",
@@ -86,36 +81,40 @@ const statsData = [
 
 const StatsSection = () => {
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-10 bg-sky-100 dark:bg-slate-950">
-      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">
-        Health Insights 💡
-      </h2>
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-14 bg-background relative">
+      {/* Subtle divider line */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-0.5 rounded-full bg-sky-400/50" />
 
-      <Carousel
-        className="max-w-2xl mx-auto"
-        plugins={[
-          Autoplay({
-            delay: 5000,
-            stopOnInteraction: false,
-          }),
-        ]}
-      >
-        <CarouselContent>
-          {statsData.map((stats) => (
-            <CarouselItem key={stats.id} className="basis-full">
-              <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-6 sm:p-8 text-center hover:shadow-lg transition">
-                {/* Icon */}
-                <div className="text-3xl sm:text-4xl mb-4">{stats.icon}</div>
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-10">
+          <p className="text-xs font-semibold uppercase tracking-widest text-sky-500 dark:text-sky-400 mb-2">
+            Did you know?
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+            Health Insights 💡
+          </h2>
+        </div>
 
-                {/* Text */}
-                <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed">
-                  {stats.text}
-                </p>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
+        <Carousel
+          className="max-w-xl mx-auto"
+          plugins={[Autoplay({ delay: 5000, stopOnInteraction: false })]}
+        >
+          <CarouselContent>
+            {statsData.map((stat) => (
+              <CarouselItem key={stat.id} className="basis-full">
+                <div className="bg-card dark:bg-card rounded-2xl border border-border shadow-sm hover:shadow-md transition-shadow p-8 text-center">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-sky-50 dark:bg-sky-900/30 mb-5 text-3xl shadow-sm">
+                    {stat.icon}
+                  </div>
+                  <p className="text-foreground text-base sm:text-lg leading-relaxed font-medium">
+                    {stat.text}
+                  </p>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </div>
     </section>
   );
 };

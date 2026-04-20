@@ -1,13 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Eye, EyeOff, User, Mail, Lock, AlertCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,7 +10,6 @@ import { showError, showSuccess } from "../../utils/toast";
 
 const UserSignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,149 +17,194 @@ const UserSignupForm = () => {
     gender: "",
     role: "",
   });
-
   const [error, setError] = useState(false);
-
   const navigate = useNavigate();
 
   const handleFormInputs = (e) => {
-    const id = e.target.id;
-    const value = e.target.value;
-    // const {id, value} = e.target
-    setFormData((prevState) => ({ ...prevState, [id]: value }));
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await userRegister(formData);
-      console.log(data);
+      await userRegister(formData);
       setError("");
       showSuccess("Welcome 👋");
       setFormData({});
       setTimeout(() => navigate("/"), 1500);
     } catch (error) {
-      console.log("ERROR 👉", error);
       setError(error.message);
       showError(error.message);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors">
-      {/* HEADER */}
-      <div className="flex items-center justify-between px-4 sm:px-6 py-4 sticky top-0 z-50 backdrop-blur-lg bg-background/60 border-b border-border/50 shadow-sm">
-        <Link to="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="doc-connect-logo" className="w-8 h-8" />
-          <h1 className="text-lg sm:text-xl font-semibold">DocConnect</h1>
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
+      {/* Header */}
+      <header className="flex items-center justify-between px-4 sm:px-6 py-4 sticky top-0 z-50 glass-header border-b border-border/60 shadow-sm">
+        <Link to="/" className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-sky-500 flex items-center justify-center shadow-sm shadow-sky-500/30">
+            <img
+              src="/logo.png"
+              alt="DocConnect"
+              className="w-5 h-5 object-contain"
+            />
+          </div>
+          <span className="text-lg font-semibold tracking-tight">
+            DocConnect
+          </span>
         </Link>
-
         <ModeToggle />
-      </div>
+      </header>
 
-      {/* SIGNUP CARD */}
-      <div className="flex flex-1 items-center justify-center px-4 py-6 ">
-        <Card className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl p-5 sm:p-6 lg:p-10 shadow-xl bg-card text-card-foreground">
-          <CardHeader>
-            <CardTitle className="text-2xl sm:text-3xl lg:text-4xl text-center">
-              Welcome
-            </CardTitle>
-            <CardDescription className="text-center text-sm sm:text-base lg:text-lg mt-1">
-              Please fill your details below
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit}>
-              <div className="flex flex-col gap-5 sm:gap-6 lg:gap-7">
-                {/* NAME */}
-                <div className="grid gap-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    id="name"
-                    type="text"
-                    placeholder="Enter name here"
-                    required
-                    className="py-5"
-                    onChange={handleFormInputs}
-                  />
+      {/* Main */}
+      <div className="flex flex-1 items-center justify-center px-4 py-10">
+        <div className="w-full max-w-sm sm:max-w-md">
+          <div className="bg-card rounded-2xl border border-border shadow-xl shadow-black/5 dark:shadow-black/30 overflow-hidden">
+            <div className="h-1 w-full bg-gradient-to-r from-sky-400 to-blue-500" />
+
+            <div className="px-6 sm:px-8 pt-8 pb-8">
+              {/* Icon */}
+              <div className="flex justify-center mb-5">
+                <div className="w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-900/30 flex items-center justify-center shadow-sm">
+                  <User size={22} className="text-sky-500" />
                 </div>
+              </div>
 
-                {/* EMAIL */}
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="m@example.com"
-                    required
-                    className="py-5"
-                    onChange={handleFormInputs}
-                  />
-                </div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-center tracking-tight">
+                Create account
+              </h1>
+              <p className="text-center text-sm text-muted-foreground mt-1.5 mb-7">
+                Join DocConnect and access quality healthcare
+              </p>
 
-                {/* PASSWORD */}
-                <div className="grid gap-2">
-                  <Label htmlFor="password">Password</Label>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Name */}
+                <div className="space-y-1.5">
+                  <Label htmlFor="name" className="text-sm font-medium">
+                    Full name
+                  </Label>
                   <div className="relative">
+                    <User
+                      size={15}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                    />
+                    <Input
+                      id="name"
+                      type="text"
+                      placeholder="Your full name"
+                      required
+                      className="pl-9 h-11 rounded-xl border-border focus:border-sky-400 focus:ring-sky-400/20 transition-colors"
+                      onChange={handleFormInputs}
+                    />
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="space-y-1.5">
+                  <Label htmlFor="email" className="text-sm font-medium">
+                    Email address
+                  </Label>
+                  <div className="relative">
+                    <Mail
+                      size={15}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                    />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="you@example.com"
+                      required
+                      className="pl-9 h-11 rounded-xl border-border focus:border-sky-400 focus:ring-sky-400/20 transition-colors"
+                      onChange={handleFormInputs}
+                    />
+                  </div>
+                </div>
+
+                {/* Password */}
+                <div className="space-y-1.5">
+                  <Label htmlFor="password" className="text-sm font-medium">
+                    Password
+                  </Label>
+                  <div className="relative">
+                    <Lock
+                      size={15}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                    />
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
                       required
-                      className="pr-10 py-5"
+                      className="pl-9 pr-11 h-11 rounded-xl border-border focus:border-sky-400 focus:ring-sky-400/20 transition-colors"
                       onChange={handleFormInputs}
                     />
-
-                    <Button
+                    <button
                       type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 hover:cursor-pointer"
-                      onClick={() => setShowPassword((prev) => !prev)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      onClick={() => setShowPassword((p) => !p)}
+                      aria-label="Toggle password"
                     >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </Button>
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
                   </div>
                 </div>
 
-                {/* GENDER */}
-                <div className="grid gap-2">
-                  <Label htmlFor="gender">Select gender</Label>
+                {/* Gender */}
+                <div className="space-y-1.5">
+                  <Label htmlFor="gender" className="text-sm font-medium">
+                    Gender
+                  </Label>
                   <select
-                    name="gender"
                     id="gender"
                     defaultValue=""
-                    className="p-3 rounded-md border border-border bg-background text-foreground hover:cursor-pointer"
+                    required
+                    className="w-full h-11 px-3 rounded-xl border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-sky-400/30 focus:border-sky-400 transition-colors cursor-pointer"
                     onChange={handleFormInputs}
                   >
                     <option value="" disabled>
-                      Choose here
+                      Select gender
                     </option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
-                    <option value="other">Others</option>
+                    <option value="other">Other</option>
                   </select>
                 </div>
-              </div>
-              {error && (
-                <p className="text-red-600 text-center mt-1">{error}</p>
-              )}
-              <div className="flex-col gap-3 pt-4">
+
+                {/* Error */}
+                {error && (
+                  <div className="flex items-center gap-2 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 rounded-xl px-3 py-2.5">
+                    <AlertCircle size={14} className="shrink-0" />
+                    {error}
+                  </div>
+                )}
+
                 <Button
                   type="submit"
-                  className="w-full py-5 hover:cursor-pointer"
+                  className="w-full h-11 rounded-xl font-semibold btn-sky text-white border-0 shadow-md shadow-sky-500/20 mt-1"
                 >
-                  Signup
+                  Create account
                 </Button>
-                <p className="text-sm text-center mt-3">
-                  Already have an account?{" "}
-                  <Link to="/" className="underline">
-                    Login
-                  </Link>
-                </p>
+              </form>
+
+              <div className="flex items-center gap-3 my-5">
+                <div className="flex-1 h-px bg-border" />
+                <span className="text-xs text-muted-foreground">or</span>
+                <div className="flex-1 h-px bg-border" />
               </div>
-            </form>
-          </CardContent>
-        </Card>
+
+              <p className="text-sm text-center text-muted-foreground">
+                Already have an account?{" "}
+                <Link
+                  to="/"
+                  className="text-sky-500 hover:text-sky-600 dark:hover:text-sky-400 font-medium underline-offset-4 hover:underline transition-colors"
+                >
+                  Sign in
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

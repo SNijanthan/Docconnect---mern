@@ -47,7 +47,7 @@ export const loginAuth = async (formData) => {
           formData,
           { withCredentials: true },
         );
-        console.log(res.data);
+
         return res.data;
       } catch (doctorError) {
         // 🔴 Doctor login also failed → throw error

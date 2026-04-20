@@ -14,19 +14,15 @@ const BOOKING_TYPES = [
 function useFocusTrap(ref, isActive) {
   useEffect(() => {
     if (!isActive || !ref.current) return;
-
     const FOCUSABLE =
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-
     const el = ref.current;
     const focusable = [...el.querySelectorAll(FOCUSABLE)].filter(
       (n) => !n.disabled,
     );
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
-
     first?.focus();
-
     const handleTab = (e) => {
       if (e.key !== "Tab") return;
       if (focusable.length === 0) {
@@ -45,7 +41,6 @@ function useFocusTrap(ref, isActive) {
         }
       }
     };
-
     el.addEventListener("keydown", handleTab);
     return () => el.removeEventListener("keydown", handleTab);
   }, [isActive, ref]);
@@ -70,14 +65,12 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
   useEffect(() => {
     if (isOpen) triggerRef.current = document.activeElement;
   }, [isOpen]);
-
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
-
   useEffect(() => {
     return () => clearTimeout(timerRef.current);
   }, []);
@@ -117,32 +110,26 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
     if (e.target === overlayRef.current) handleCancel();
   };
 
-  // ✅ Detect duplicate key error from MongoDB or backend message
   const getDuplicateSlotError = (err) => {
     const status = err.response?.status;
     const message = (err.response?.data?.message ?? "").toLowerCase();
-
     const isDuplicate =
       status === 409 ||
       message.includes("duplicate") ||
       message.includes("already booked") ||
       message.includes("slot") ||
       message.includes("e11000");
-
     return isDuplicate
-      ? "This time slot is already booked by another patient. Please pick a different date or time."
+      ? "This time slot is already booked. Please pick a different date or time."
       : null;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setAttempted(true);
-
     if (!date || !bookingType) return;
-
     setLoading(true);
     setError("");
-
     try {
       const { data } = await axios.post(
         `${API_URL}/appointment`,
@@ -153,17 +140,14 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
         },
         { withCredentials: true },
       );
-
       dispatch(addAppointment(data.createAppointment));
       setSuccessMsg("Appointment booked! Redirecting…");
-
       timerRef.current = setTimeout(() => {
         resetForm();
         setIsOpen(false);
         navigate("/home");
       }, 2000);
     } catch (err) {
-      // ✅ Check for duplicate slot first, then fall back to server/generic message
       const duplicateError = getDuplicateSlotError(err);
       setError(
         duplicateError ??
@@ -181,8 +165,7 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
     <div
       ref={overlayRef}
       onClick={handleOverlayClick}
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:px-4 bg-black/50 backdrop-blur-sm"
-      aria-hidden="false"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:px-4 bg-black/60 backdrop-blur-sm"
     >
       <div
         ref={modalRef}
@@ -190,32 +173,22 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
         aria-modal="true"
         aria-labelledby="modal-title"
         aria-describedby="modal-desc"
-        className="
-          relative w-full sm:max-w-md
-          bg-white dark:bg-slate-900
-          border border-slate-200 dark:border-slate-700
-          rounded-t-3xl sm:rounded-2xl shadow-2xl
-          px-5 pt-5 pb-8 sm:p-8
-          animate-in fade-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200
-        "
+        className="relative w-full sm:max-w-md bg-card border border-border rounded-t-3xl sm:rounded-2xl shadow-2xl px-5 pt-5 pb-8 sm:p-8 animate-in fade-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Drag handle — mobile only */}
+        {/* Top accent */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-400 to-blue-500" />
+
+        {/* Drag handle — mobile */}
         <div className="sm:hidden flex justify-center mb-4" aria-hidden="true">
-          <div className="w-10 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
+          <div className="w-10 h-1 rounded-full bg-border" />
         </div>
 
-        {/* Close Button */}
+        {/* Close */}
         <button
           onClick={handleCancel}
-          className="
-            absolute top-4 right-4 w-10 h-10 flex items-center justify-center
-            rounded-full text-slate-400 hover:text-slate-600
-            dark:text-slate-500 dark:hover:text-slate-300
-            bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700
-            active:scale-95 transition-all duration-150 touch-manipulation
-          "
-          aria-label="Close booking modal"
+          className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-xl text-muted-foreground hover:text-foreground bg-muted hover:bg-accent active:scale-95 transition-all duration-150"
+          aria-label="Close"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -226,7 +199,6 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
             strokeWidth={2.5}
             strokeLinecap="round"
             strokeLinejoin="round"
-            aria-hidden="true"
           >
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
@@ -234,11 +206,8 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
         </button>
 
         {/* Header */}
-        <div className="text-center mb-6">
-          <div
-            className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-sky-100 dark:bg-sky-900/40 mb-3"
-            aria-hidden="true"
-          >
+        <div className="text-center mb-6 pt-1">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-900/30 mb-3 shadow-sm">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-6 h-6 text-sky-500"
@@ -257,31 +226,23 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
           </div>
           <h2
             id="modal-title"
-            className="text-xl font-semibold text-slate-900 dark:text-white"
+            className="text-xl font-bold text-foreground tracking-tight"
           >
             Book Appointment
           </h2>
-          <p
-            id="modal-desc"
-            className="mt-1 text-sm text-slate-500 dark:text-slate-400"
-          >
+          <p id="modal-desc" className="mt-1 text-sm text-muted-foreground">
             with{" "}
-            <span className="font-medium text-slate-700 dark:text-slate-200">
+            <span className="font-semibold text-sky-600 dark:text-sky-400">
               Dr. {doctor.name}
             </span>
           </p>
         </div>
 
-        {/* Success Banner */}
+        {/* Success */}
         {successMsg && (
           <div
             role="status"
-            className="
-              flex items-center gap-2 px-3 py-2.5 mb-4 rounded-xl
-              bg-green-50 dark:bg-green-900/20
-              border border-green-200 dark:border-green-800
-              text-green-700 dark:text-green-400 text-sm
-            "
+            className="flex items-center gap-2 px-3 py-3 mb-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-sm font-medium"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -292,7 +253,6 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
               strokeWidth={2}
               strokeLinecap="round"
               strokeLinejoin="round"
-              aria-hidden="true"
             >
               <polyline points="20 6 9 17 4 12" />
             </svg>
@@ -300,14 +260,13 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
           </div>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-          {/* Consultation Type */}
+          {/* Type selector */}
           <fieldset className="space-y-2">
-            <legend className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+            <legend className="block text-sm font-medium text-foreground mb-2">
               Consultation Type
             </legend>
-            <div className="grid grid-cols-2 gap-3" role="group">
+            <div className="grid grid-cols-2 gap-3">
               {BOOKING_TYPES.map((opt) => {
                 const selected = bookingType === opt.value;
                 return (
@@ -316,24 +275,13 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
                     type="button"
                     onClick={() => setBookingType(opt.value)}
                     aria-pressed={selected}
-                    className={`
-                      flex flex-col items-center justify-center gap-1.5
-                      py-4 px-4 rounded-2xl text-sm font-medium
-                      border-2 transition-all duration-150
-                      min-h-[72px] touch-manipulation select-none active:scale-95
-                      ${
-                        selected
-                          ? "bg-sky-500 border-sky-500 text-white shadow-lg shadow-sky-500/25 scale-[1.02]"
-                          : `bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700
-                             text-slate-600 dark:text-slate-400
-                             hover:border-sky-300 dark:hover:border-sky-700
-                             hover:text-sky-600 dark:hover:text-sky-400`
-                      }
-                    `}
+                    className={`flex flex-col items-center justify-center gap-2 py-4 px-4 rounded-2xl text-sm font-medium border-2 transition-all duration-150 min-h-[72px] touch-manipulation select-none active:scale-95 ${
+                      selected
+                        ? "bg-sky-500 border-sky-500 text-white shadow-lg shadow-sky-500/25 scale-[1.02]"
+                        : "bg-muted/50 border-border text-muted-foreground hover:border-sky-300 dark:hover:border-sky-700 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50/50 dark:hover:bg-sky-900/10"
+                    }`}
                   >
-                    <span className="text-xl leading-none" aria-hidden="true">
-                      {opt.icon}
-                    </span>
+                    <span className="text-xl leading-none">{opt.icon}</span>
                     <span>{opt.label}</span>
                   </button>
                 );
@@ -350,10 +298,10 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
           </fieldset>
 
           {/* Date & Time */}
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <label
               htmlFor="appointment-datetime"
-              className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+              className="block text-sm font-medium text-foreground"
             >
               Date & Time
             </label>
@@ -364,20 +312,12 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
               min={minDateTime}
               onChange={(e) => {
                 setDate(e.target.value);
-                // ✅ Clear duplicate error when user picks a new time
                 if (error) setError("");
               }}
               required
               aria-required="true"
               aria-invalid={attempted && !date ? "true" : "false"}
-              className="
-                w-full h-12 px-3 rounded-xl text-sm
-                bg-slate-50 dark:bg-slate-800
-                border border-slate-200 dark:border-slate-700
-                text-slate-900 dark:text-slate-100
-                focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent
-                dark:[color-scheme:dark] transition-all duration-150 touch-manipulation
-              "
+              className="w-full h-11 px-3 rounded-xl text-sm bg-muted/50 border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-sky-400/30 focus:border-sky-400 dark:[color-scheme:dark] transition-all duration-150"
             />
             {attempted && !date && (
               <p
@@ -389,15 +329,11 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
             )}
           </div>
 
-          {/* ✅ API / Duplicate Error */}
+          {/* Error */}
           {error && (
             <div
               role="alert"
-              className="
-                flex items-start gap-2 px-3 py-2.5 rounded-xl
-                bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800
-                text-red-600 dark:text-red-400 text-sm
-              "
+              className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -408,7 +344,6 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
                 strokeWidth={2}
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                aria-hidden="true"
               >
                 <circle cx="12" cy="12" r="10" />
                 <line x1="12" y1="8" x2="12" y2="12" />
@@ -418,19 +353,12 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
             </div>
           )}
 
-          {/* Footer Buttons */}
-          <div className="flex flex-col gap-3 sm:flex-row-reverse pt-1">
+          {/* Buttons */}
+          <div className="flex flex-col gap-2.5 sm:flex-row-reverse pt-1">
             <button
               type="submit"
               disabled={loading || !!successMsg}
-              style={{ minHeight: "52px" }}
-              className="
-                flex-1 rounded-xl text-sm font-semibold text-white
-                bg-sky-500 hover:bg-sky-600
-                disabled:opacity-40 disabled:cursor-not-allowed
-                shadow-md shadow-sky-500/25
-                active:scale-[0.98] transition-all duration-150 touch-manipulation
-              "
+              className="flex-1 h-12 rounded-xl text-sm font-semibold text-white btn-sky disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-sky-500/25 active:scale-[0.98] transition-all touch-manipulation"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -438,7 +366,6 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
                     className="w-4 h-4 animate-spin"
                     viewBox="0 0 24 24"
                     fill="none"
-                    aria-hidden="true"
                   >
                     <circle
                       className="opacity-25"
@@ -454,27 +381,17 @@ const BookAppointment = ({ isOpen, setIsOpen, doctor }) => {
                       d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"
                     />
                   </svg>
-                  <span>Booking…</span>
+                  Booking…
                 </span>
               ) : (
                 "Confirm Booking"
               )}
             </button>
-
             <button
               type="button"
               onClick={handleCancel}
               disabled={loading}
-              style={{ minHeight: "52px" }}
-              className="
-                flex-1 rounded-xl text-sm font-medium
-                border border-slate-200 dark:border-slate-700
-                text-slate-600 dark:text-slate-400
-                bg-white dark:bg-slate-800
-                hover:bg-slate-50 dark:hover:bg-slate-700
-                disabled:opacity-40 disabled:cursor-not-allowed
-                active:scale-[0.98] transition-all duration-150 touch-manipulation
-              "
+              className="flex-1 h-12 rounded-xl text-sm font-medium border border-border text-muted-foreground bg-background hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition-all touch-manipulation"
             >
               Cancel
             </button>

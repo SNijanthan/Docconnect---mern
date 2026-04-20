@@ -16,7 +16,7 @@ const items = [
     value: "reschedule",
     trigger: "Can I reschedule or cancel my appointment?",
     content:
-      "Unfortunately, you cannot reschedule your appointment as of now but we are working on it but you can cancel your appointment from the 'My Appointments' section. Please note that cancellations must be made at least a few hours before the scheduled time.",
+      "Unfortunately, you cannot reschedule your appointment as of now but we are working on it — but you can cancel your appointment from the 'My Appointments' section. Please note that cancellations must be made at least a few hours before the scheduled time.",
   },
   {
     value: "fees",
@@ -40,50 +40,36 @@ const items = [
 
 const FAQAccordion = () => {
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-16 bg-sky-100 dark:bg-slate-950">
-      {/* Heading */}
-      <div className="max-w-xl mx-auto text-center mb-10">
-        <h2 className="text-2xl sm:text-3xl font-bold">
-          Frequently Asked Questions ❓
-        </h2>
-        <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-2">
-          Everything you need to know before getting started
-        </p>
-      </div>
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-14 bg-gradient-to-b from-background to-sky-50/40 dark:to-slate-900/40">
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-10">
+          <p className="text-xs font-semibold uppercase tracking-widest text-sky-500 dark:text-sky-400 mb-2">
+            Support
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+            Frequently Asked Questions ❓
+          </h2>
+          <p className="text-sm text-muted-foreground mt-2.5">
+            Everything you need to know before getting started
+          </p>
+        </div>
 
-      {/* Accordion */}
-      <div className="max-w-xl mx-auto">
         <Accordion
           type="single"
           collapsible="true"
-          defaultValue="item-1"
-          className="space-y-4"
+          defaultValue="consultation"
+          className="space-y-3"
         >
           {items.map((item) => (
             <AccordionItem
               key={item.value}
               value={item.value}
-              className="bg-white dark:bg-slate-900 rounded-xl px-4 sm:px-5 py-2 shadow-sm border border-border/50"
+              className="bg-card rounded-2xl border border-border shadow-sm hover:border-sky-200 dark:hover:border-sky-800/60 transition-colors overflow-hidden"
             >
-              <AccordionTrigger
-                className="
-                  text-left 
-                  text-sm sm:text-base 
-                  font-medium 
-                  leading-snug
-                "
-              >
+              <AccordionTrigger className="px-5 py-4 text-left text-sm sm:text-base font-medium hover:no-underline [&[data-state=open]]:text-sky-600 dark:[&[data-state=open]]:text-sky-400 transition-colors">
                 {item.trigger}
               </AccordionTrigger>
-
-              <AccordionContent
-                className="
-                  text-gray-600 dark:text-gray-400 
-                  text-sm sm:text-base 
-                  leading-relaxed
-                  pt-2
-                "
-              >
+              <AccordionContent className="px-5 pb-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
                 {item.content}
               </AccordionContent>
             </AccordionItem>

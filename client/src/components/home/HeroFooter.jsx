@@ -1,17 +1,45 @@
 import { Link } from "react-router-dom";
 
+const footerLinks = {
+  Company: [
+    { label: "About", to: "/home" },
+    { label: "Careers", to: "/home" },
+    { label: "Privacy", to: "/home" },
+    { label: "Terms", to: "/home" },
+  ],
+  Resources: [
+    { label: "Find Doctors", to: "/home" },
+    { label: "Appointments", to: "/home" },
+    { label: "Help Center", to: "/home" },
+  ],
+  Support: [
+    { label: "Contact", to: "/home" },
+    { label: "FAQ", to: "/home" },
+    { label: "Refund Policy", to: "/home" },
+  ],
+};
+
 const HeroFooter = () => {
   return (
-    <footer className="w-full bg-slate-100 dark:bg-slate-950 pt-16 pb-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <footer className="w-full bg-card border-t border-border">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-8">
         {/* Top Section */}
-        <div className="flex flex-col md:flex-row justify-between gap-10">
-          {/* Logo + Description */}
-          <div className="max-w-sm">
-            <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
-              DocConnect
-            </h1>
-            <p className="mt-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+        <div className="flex flex-col md:flex-row justify-between gap-10 mb-12">
+          {/* Brand */}
+          <div className="max-w-xs">
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-sky-500 flex items-center justify-center shadow-sm shadow-sky-500/30">
+                <img
+                  src="/logo.png"
+                  alt="DocConnect"
+                  className="w-5 h-5 object-contain"
+                />
+              </div>
+              <span className="text-base font-semibold tracking-tight">
+                DocConnect
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
               Your trusted platform for online doctor consultations, appointment
               booking, and secure health records.
             </p>
@@ -19,65 +47,36 @@ const HeroFooter = () => {
 
           {/* Links */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
-            <div>
-              <h2 className="text-sm font-medium mb-3 text-gray-900 dark:text-white">
-                Company
-              </h2>
-              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                <li>
-                  <Link to="/home">About</Link>
-                </li>
-                <li>
-                  <Link to="/home">Careers</Link>
-                </li>
-                <li>
-                  <Link to="/home">Privacy</Link>
-                </li>
-                <li>
-                  <Link to="/home">Terms</Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-sm font-medium mb-3 text-gray-900 dark:text-white">
-                Resources
-              </h2>
-              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                <li>
-                  <Link to="/home">Find Doctors</Link>
-                </li>
-                <li>
-                  <Link to="/home">Appointments</Link>
-                </li>
-                <li>
-                  <Link to="/home">Help Center</Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-sm font-medium mb-3 text-gray-900 dark:text-white">
-                Support
-              </h2>
-              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                <li>
-                  <Link to="/home">Contact</Link>
-                </li>
-                <li>
-                  <Link to="/home">FAQ</Link>
-                </li>
-                <li>
-                  <Link to="/home">Refund Policy</Link>
-                </li>
-              </ul>
-            </div>
+            {Object.entries(footerLinks).map(([section, links]) => (
+              <div key={section}>
+                <h3 className="text-sm font-semibold text-foreground mb-3">
+                  {section}
+                </h3>
+                <ul className="space-y-2.5">
+                  {links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        to={link.to}
+                        className="text-sm text-muted-foreground hover:text-sky-500 dark:hover:text-sky-400 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="mt-12 text-center text-sm text-gray-500 dark:text-gray-400">
-          © {new Date().getFullYear()} DocConnect. All rights reserved.
+        {/* Bottom */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border">
+          <p className="text-xs text-muted-foreground">
+            © {new Date().getFullYear()} DocConnect. All rights reserved.
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Made with ❤️ for better healthcare
+          </p>
         </div>
       </div>
     </footer>

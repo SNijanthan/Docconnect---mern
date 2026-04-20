@@ -7,8 +7,6 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: "Geist Variable", sans-serif;
   --font-heading: "Poppins", sans-serif;
   --font-sans: "Geist Variable", sans-serif;
   --font-roboto: "Roboto", sans-serif;
@@ -30,81 +28,142 @@
   --color-destructive: var(--destructive);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-
   --radius: 0.625rem;
 }
 
-/* 🌞 LIGHT MODE */
+/* ── LIGHT MODE ─────────────────────────────────────────── */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.13 0 0);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.13 0 0);
 
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.13 0 0);
 
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
 
-  --secondary: oklch(0.97 0 0);
+  --secondary: oklch(0.96 0 0);
   --secondary-foreground: oklch(0.205 0 0);
 
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.5 0 0);
 
-  --accent: oklch(0.97 0 0);
+  --accent: oklch(0.96 0 0);
   --accent-foreground: oklch(0.205 0 0);
 
   --destructive: oklch(0.577 0.245 27.325);
 
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.91 0 0);
+  --input: oklch(0.91 0 0);
+  --ring: oklch(0.6 0.15 230);
+
+  /* App-specific tokens */
+  --sky-accent: oklch(0.62 0.18 230);
+  --sky-accent-hover: oklch(0.56 0.19 230);
+  --surface-subtle: oklch(0.975 0.005 230);
+  --hero-bg: oklch(0.955 0.01 225);
 }
 
-/* 🌙 DARK MODE */
+/* ── DARK MODE ──────────────────────────────────────────── */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  --background: oklch(0.12 0.005 240);
+  --foreground: oklch(0.97 0 0);
 
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
+  --card: oklch(0.17 0.005 240);
+  --card-foreground: oklch(0.97 0 0);
 
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.17 0.005 240);
+  --popover-foreground: oklch(0.97 0 0);
 
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: oklch(0.93 0 0);
+  --primary-foreground: oklch(0.17 0 0);
 
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.23 0.005 240);
+  --secondary-foreground: oklch(0.97 0 0);
 
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted: oklch(0.23 0.005 240);
+  --muted-foreground: oklch(0.64 0 0);
 
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --accent: oklch(0.23 0.005 240);
+  --accent-foreground: oklch(0.97 0 0);
 
   --destructive: oklch(0.704 0.191 22.216);
 
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.62 0.15 230);
+
+  /* App-specific tokens */
+  --sky-accent: oklch(0.65 0.16 230);
+  --sky-accent-hover: oklch(0.7 0.14 230);
+  --surface-subtle: oklch(0.2 0.006 240);
+  --hero-bg: oklch(0.155 0.01 240);
 }
 
-/* BASE STYLES */
+/* ── BASE STYLES ─────────────────────────────────────────── */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
 
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+  }
+}
+
+/* ── UTILITY CLASSES ─────────────────────────────────────── */
+@layer utilities {
+  .glass-header {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: oklch(1 0 0 / 70%);
+  }
+
+  .dark .glass-header {
+    background: oklch(0.12 0.005 240 / 75%);
+  }
+
+  .card-hover {
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px -8px oklch(0 0 0 / 12%);
+  }
+
+  .dark .card-hover:hover {
+    box-shadow: 0 12px 40px -8px oklch(0 0 0 / 40%);
+  }
+
+  /* Sky button gradient */
+  .btn-sky {
+    background: linear-gradient(
+      135deg,
+      oklch(0.62 0.18 230),
+      oklch(0.56 0.2 248)
+    );
+    color: white;
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .btn-sky:hover {
+    opacity: 0.92;
+  }
+
+  .btn-sky:active {
+    transform: scale(0.98);
   }
 }

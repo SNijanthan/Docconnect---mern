@@ -3,7 +3,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-
 import Autoplay from "embla-carousel-autoplay";
 
 const feedbackData = [
@@ -153,44 +152,82 @@ const feedbackData = [
   },
 ];
 
+const getInitials = (name) =>
+  name
+    .split(" ")
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
+
+const roleColors = {
+  Patient:
+    "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800",
+  Doctor:
+    "bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-900/20 dark:text-sky-400 dark:border-sky-800",
+};
+
 const UserFeedback = () => {
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-10 bg-sky-100 dark:bg-slate-950">
-      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">
-        What Our Users Say 💬
-      </h2>
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-14 bg-background">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-10">
+          <p className="text-xs font-semibold uppercase tracking-widest text-sky-500 dark:text-sky-400 mb-2">
+            Testimonials
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+            What Our Users Say 💬
+          </h2>
+        </div>
 
-      <Carousel
-        className="max-w-2xl mx-auto"
-        plugins={[
-          Autoplay({
-            delay: 5000,
-            stopOnInteraction: false,
-          }),
-        ]}
-      >
-        <CarouselContent>
-          {feedbackData.map((feedback) => (
-            <CarouselItem key={feedback.id} className="basis-full">
-              <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-6 sm:p-8 text-center hover:shadow-lg transition">
-                <p className="text-gray-700 dark:text-gray-300 text-base sm:text-lg leading-relaxed mb-4">
-                  “{feedback.message}”
-                </p>
+        <Carousel
+          className="max-w-xl mx-auto"
+          plugins={[Autoplay({ delay: 5000, stopOnInteraction: false })]}
+        >
+          <CarouselContent>
+            {feedbackData.map((feedback) => (
+              <CarouselItem key={feedback.id} className="basis-full">
+                <div className="bg-card rounded-2xl border border-border shadow-sm hover:shadow-md transition-shadow p-7 sm:p-8">
+                  {/* Stars */}
+                  <div className="flex gap-0.5 mb-4">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <svg
+                        key={i}
+                        viewBox="0 0 20 20"
+                        className={`w-4 h-4 ${i < feedback.rating ? "fill-amber-400" : "fill-border"}`}
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
 
-                <div className="mb-3 text-lg">
-                  {"⭐".repeat(feedback.rating)}
+                  {/* Quote */}
+                  <p className="text-foreground text-base leading-relaxed mb-6">
+                    "{feedback.message}"
+                  </p>
+
+                  {/* Author */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-900/40 flex items-center justify-center text-sky-700 dark:text-sky-300 text-sm font-bold shrink-0">
+                      {getInitials(feedback.name)}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">
+                        {feedback.name}
+                      </p>
+                      <span
+                        className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full border mt-0.5 ${roleColors[feedback.role]}`}
+                      >
+                        {feedback.role}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-
-                <p className="font-semibold text-gray-800 dark:text-gray-200">
-                  {feedback.name}
-                </p>
-
-                <p className="text-sm text-gray-500">{feedback.role}</p>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </div>
     </section>
   );
 };
