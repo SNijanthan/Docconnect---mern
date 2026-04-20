@@ -232,8 +232,6 @@ const CancelConfirmDialog = ({
   );
 };
 
-// ── Main component ───────────────────────────────────────────────────────────
-
 const UserAppointments = () => {
   const dispatch = useDispatch();
   const userAppointments = useSelector(
@@ -243,7 +241,6 @@ const UserAppointments = () => {
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
 
-  // Dialog state
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [cancelLoading, setCancelLoading] = useState(false);
@@ -269,20 +266,17 @@ const UserAppointments = () => {
     fetchAppointments();
   }, [fetchAppointments]);
 
-  // Step 1 — open dialog
   const handleCancelClick = (appointment) => {
     setSelectedAppointment(appointment);
     setDialogOpen(true);
   };
 
-  // Step 2a — user changed their mind
   const handleDialogClose = () => {
     if (cancelLoading) return;
     setDialogOpen(false);
     setSelectedAppointment(null);
   };
 
-  // Step 2b — user confirmed cancellation
   const handleConfirmCancel = async () => {
     if (!selectedAppointment) return;
     setCancelLoading(true);
@@ -293,7 +287,6 @@ const UserAppointments = () => {
         { withCredentials: true },
       );
 
-      // Immediate optimistic update — no re-fetch needed
       dispatch(
         updateAppointmentStatus({
           id: selectedAppointment._id,
@@ -314,7 +307,6 @@ const UserAppointments = () => {
     }
   };
 
-  // ── Loading ──
   if (loading) {
     return (
       <div className="p-4 md:p-8 max-w-6xl mx-auto">
@@ -331,7 +323,6 @@ const UserAppointments = () => {
     );
   }
 
-  // ── Fetch error ──
   if (fetchError) {
     return (
       <div className="p-4 md:p-8 max-w-6xl mx-auto">
@@ -355,7 +346,6 @@ const UserAppointments = () => {
     );
   }
 
-  // ── Appointments grid ──
   return (
     <>
       <div className="p-4 md:p-8 max-w-6xl mx-auto">

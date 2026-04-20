@@ -267,7 +267,6 @@ const DoctorAppointments = () => {
     );
   }
 
-  // Stats summary
   const stats = {
     total: doctorAppointments.length,
     pending: doctorAppointments.filter((a) => a.bookingStatus === "pending")

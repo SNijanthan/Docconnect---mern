@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// ── Load persisted auth from localStorage on app start ──────────────────────
 const loadAuthFromStorage = () => {
   try {
     const serialized = localStorage.getItem("docconnect_auth");
@@ -19,7 +18,6 @@ const initialState = {
   role: persisted?.role ?? null,
 };
 
-// ── Slice ────────────────────────────────────────────────────────────────────
 const authSlice = createSlice({
   name: "auth",
   initialState,

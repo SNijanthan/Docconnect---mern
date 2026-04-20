@@ -1,6 +1,6 @@
 const validator = require("validator");
 
-// 🔥 Common validation
+🔥 Common validation
 const validateBasicData = (req) => {
   const { name, email, password, gender } = req.body;
 

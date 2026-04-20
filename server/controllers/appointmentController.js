@@ -1,9 +1,9 @@
 const Appointment = require("../models/appointment.js");
 const Doctor = require("../models/doctor.js");
 
-// * For Users
+* For Users
 
-// ! For creating appointments
+! For creating appointments
 
 const createAppointment = async (req, res) => {
   try {
@@ -50,7 +50,7 @@ const createAppointment = async (req, res) => {
   }
 };
 
-// ! Get user appointment details
+! Get user appointment details
 
 const getAppointmentDetails = async (req, res) => {
   try {
@@ -76,7 +76,7 @@ const getAppointmentDetails = async (req, res) => {
   }
 };
 
-// ! Cancel appointment
+! Cancel appointment
 
 const cancelAppointment = async (req, res) => {
   try {
@@ -85,7 +85,7 @@ const cancelAppointment = async (req, res) => {
 
     const findAppointment = await Appointment.findById(id);
 
-    // ! If the appointment is existing or not
+    ! If the appointment is existing or not
 
     if (!findAppointment) {
       return res
@@ -93,7 +93,7 @@ const cancelAppointment = async (req, res) => {
         .json({ status: false, message: "No records found" });
     }
 
-    // ! Only the user who created an appointment can delete the appointment
+    ! Only the user who created an appointment can delete the appointment
 
     if (!findAppointment.user.equals(_id)) {
       return res.status(403).json({
@@ -102,7 +102,7 @@ const cancelAppointment = async (req, res) => {
       });
     }
 
-    // ! Checking if the appointment is already cancelled or not
+    ! Checking if the appointment is already cancelled or not
 
     if (findAppointment.bookingStatus === "cancelled") {
       return res.status(400).json({
@@ -111,7 +111,7 @@ const cancelAppointment = async (req, res) => {
       });
     }
 
-    // ! Preventing cancelling previous/completed appointments
+    ! Preventing cancelling previous/completed appointments
 
     if (findAppointment.appointmentDateTime < new Date()) {
       return res.status(400).json({
@@ -120,7 +120,7 @@ const cancelAppointment = async (req, res) => {
       });
     }
 
-    // ! Updating the booking status as cancelled
+    ! Updating the booking status as cancelled
 
     const updateAppointment = await Appointment.findByIdAndUpdate(
       id,
@@ -140,9 +140,9 @@ const cancelAppointment = async (req, res) => {
   }
 };
 
-// * For Doctors
+* For Doctors
 
-// ! Get appointment booking details
+! Get appointment booking details
 
 const getBookingsDetails = async (req, res) => {
   try {
@@ -168,7 +168,7 @@ const getBookingsDetails = async (req, res) => {
   }
 };
 
-// ! Accept received appointments
+! Accept received appointments
 
 const acceptAppointment = async (req, res) => {
   try {
@@ -213,7 +213,7 @@ const acceptAppointment = async (req, res) => {
   }
 };
 
-// ! Reject received appointments
+! Reject received appointments
 
 const rejectAppointment = async (req, res) => {
   try {
@@ -258,11 +258,11 @@ const rejectAppointment = async (req, res) => {
   }
 };
 
-// ! Update completed appointment detail ["pending", "accepted", "rejected", "completed", "cancelled"]
+! Update completed appointment detail ["pending", "accepted", "rejected", "completed", "cancelled"]
 
 const completeAppointment = async (req, res) => {
   try {
-    const { _id } = req.user; // doctor
+    const { _id } = req.user; doctor
     const { id } = req.params;
 
     const updatedAppointment = await Appointment.findOneAndUpdate(

@@ -26,7 +26,6 @@ export const doctorRegister = async (formData) => {
 
 export const loginAuth = async (formData) => {
   try {
-    // 🔹 Try USER login first
     const res = await axios.post(
       `${import.meta.env.VITE_API_URL}/auth/user/login`,
       formData,
@@ -36,7 +35,6 @@ export const loginAuth = async (formData) => {
   } catch (error) {
     const errData = error.response?.data;
 
-    // 🔹 If USER NOT FOUND → try DOCTOR login
     if (
       errData?.status === false &&
       errData?.message === "User does not exist"
@@ -50,7 +48,6 @@ export const loginAuth = async (formData) => {
 
         return res.data;
       } catch (doctorError) {
-        // 🔴 Doctor login also failed → throw error
         throw (
           doctorError.response?.data || {
             message: "Login failed",
@@ -59,7 +56,6 @@ export const loginAuth = async (formData) => {
       }
     }
 
-    // 🔴 If not "user not found" → throw original error
     throw errData || { message: "Something went wrong" };
   }
 };

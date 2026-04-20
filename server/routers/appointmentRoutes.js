@@ -16,7 +16,7 @@ const tokenAuth = require("../middleware/authMiddleware.js");
 const authorizeUserMiddleware = require("../middleware/authorizeUserMiddleware.js");
 const authorizeDoctorMiddleware = require("../middleware/authorizeDoctorMiddleware.js");
 
-// ! Its a protected route, middleware should be include
+! Its a protected route, middleware should be include
 
 appointmentRoutes.post(
   "/appointment",
