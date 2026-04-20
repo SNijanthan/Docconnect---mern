@@ -14,21 +14,16 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  process.env.CLIENT_URL, // https://docconnect-mern.vercel.app
-];
+const allowedOrigins = ["http://localhost:5173", process.env.CLIENT_URL];
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
       }
-
-      return callback(null, false);
     },
     credentials: true,
   }),
